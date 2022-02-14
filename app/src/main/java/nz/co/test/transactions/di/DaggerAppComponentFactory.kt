@@ -10,12 +10,12 @@ import javax.inject.Provider
 
 class DaggerAppComponentFactory : AppComponentFactory() {
 
-    private val component = DaggerAppComponent.create()
-
-    init {
-        component.inject(this)
-    }
-
-    @Inject
-    lateinit var map: Map<Class<out Activity>, @JvmSuppressWildcards Provider<Activity>>
+//    private val component = DaggerAppComponent.create()
+//
+//    init {
+//        component.inject(this)
+//    }
+//
+//    @Inject
+//    lateinit var map: Map<Class<out Activity>, @JvmSuppressWildcards Provider<Activity>>
 }

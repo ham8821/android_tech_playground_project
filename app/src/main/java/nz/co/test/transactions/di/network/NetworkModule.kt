@@ -2,7 +2,7 @@ package nz.co.test.transactions.di.network
 
 import dagger.Module
 import dagger.Provides
-import nz.co.test.transactions.services.TransactionsService
+import nz.co.test.transactions.infrastructure.services.TransactionsService
 import retrofit2.Retrofit
 
 @Module

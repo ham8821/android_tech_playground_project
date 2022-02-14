@@ -1,5 +1,6 @@
-package nz.co.test.transactions.services
+package nz.co.test.transactions.infrastructure.services
 
+import nz.co.test.transactions.infrastructure.model.Transaction
 import retrofit2.http.GET
 
 interface TransactionsService {

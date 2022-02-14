@@ -1,4 +1,4 @@
-package nz.co.test.transactions.services
+package nz.co.test.transactions.infrastructure.model
 
 import java.math.BigDecimal
 import java.time.OffsetDateTime

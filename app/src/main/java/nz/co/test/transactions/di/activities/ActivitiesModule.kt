@@ -4,7 +4,7 @@ import android.app.Activity
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import nz.co.test.transactions.activities.MainActivity
+import nz.co.test.transactions.ui.activities.MainActivity
 
 @Module
 class ActivitiesModule {

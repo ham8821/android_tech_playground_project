@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Transactions"
         tools:replace="android:appComponentFactory">
         <activity
-            android:name=".activities.MainActivity"
+            android:name="nz.co.test.transactions.ui.activities.MainActivity"
             tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -15,6 +15,7 @@ import dagger.android.support.DaggerFragment
 import nz.co.test.transactions.*
 import nz.co.test.transactions.databinding.FragmentTransactonListBinding
 import nz.co.test.transactions.infrastructure.model.Transaction
+import nz.co.test.transactions.ui.bundles.TransactionItemBundle
 import javax.inject.Inject
 
 
@@ -96,7 +97,8 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     }
 
     override fun onItemClicked(item: Transaction) {
-        val directions = TransactionListFragmentDirections.actionFirstFragmentToSecondFragment()
+        val transactionBundle = TransactionItemBundle(item.id, item.transactionDate, item.summary, item.debit, item.credit)
+        val directions = TransactionListFragmentDirections.actionFirstFragmentToSecondFragment(transactionBundle)
         findNavController().navigate(directions)
     }
 

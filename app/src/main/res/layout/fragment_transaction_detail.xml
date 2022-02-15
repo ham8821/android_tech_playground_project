@@ -1,20 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:id="@+id/no_transaction_found_text"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?selectableItemBackgroundBorderless"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    android:background="@color/cardview_dark_background"
+    tools:layout_margin="16dp">
+
+    <RelativeLayout
+        android:id="@+id/kb_message_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:layout_marginTop="100dp"
-        android:layout_gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Transaction dEtail"
-        tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/top_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toStartOf="@+id/kb_collapse_status_image_view"
+            android:layout_toLeftOf="@+id/kb_collapse_status_image_view"
+            android:orientation="horizontal"
+            android:layout_margin="16dp"
+            tools:background="#20FF0000">
+
+            <ImageView
+                android:id="@+id/kb_user_image_view"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_chevron" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/transaction_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    tools:background="#38FF0000"
+                    tools:text="{NAME}" />
+
+                <TextView
+                    android:id="@+id/transaction_credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    tools:background="#38FF0000"
+                    tools:text="{DATE}" />
+
+                <TextView
+                    android:id="@+id/transaction_debit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    tools:background="#38FF0000"
+                    tools:text="{DATE}" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/kb_collapse_status_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:padding="16dp"
+            android:src="@drawable/ic_chevron" />
+
+        <TextView
+            android:id="@+id/transaction_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/kb_collapse_status_image_view"
+            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/red"
+            tools:background="#38FF0000"
+            tools:text="{CONTENT}" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

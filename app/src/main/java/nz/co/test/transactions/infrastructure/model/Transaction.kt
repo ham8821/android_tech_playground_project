@@ -1,9 +1,11 @@
 package nz.co.test.transactions.infrastructure.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Transaction(
-    val id: Int,
-    val transactionDate: String,
-    val summary: String,
-    val debit: String,
-    val credit: String
+    @SerializedName("id") val id: Int,
+    @SerializedName("transactionDate") val transactionDate: String,
+    @SerializedName("summary") val summary: String,
+    @SerializedName("debit") val debit: String,
+    @SerializedName("credit") val credit: String
 )

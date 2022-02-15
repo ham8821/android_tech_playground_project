@@ -21,5 +21,9 @@
         android:name="nz.co.test.transactions.ui.fragments.TransactionDetailFragment"
         android:label="navigation_transaction_detail_fragment"
         tools:layout="@layout/fragment_transaction_detail" >
+        <argument
+            android:name="transactionBundle"
+            app:argType="nz.co.test.transactions.ui.bundles.TransactionItemBundle"
+            app:nullable="false"/>
     </fragment>
 </navigation>

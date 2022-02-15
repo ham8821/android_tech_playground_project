@@ -28,5 +28,6 @@ class TransactionDetailFragment: DaggerFragment(R.layout.fragment_transaction_de
         binding.transactionCredit.text = args.transactionBundle.credit
         binding.transactionDebit.text = args.transactionBundle.debit
         binding.transactionDate.text = args.transactionBundle.transactionDate
+//        setGSTdisclaimer()
     }
 }

@@ -30,7 +30,7 @@
             tools:background="#20FF0000">
 
             <ImageView
-                android:id="@+id/kb_user_image_view"
+                android:id="@+id/transaction_image_view"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"

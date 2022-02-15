@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TextView
@@ -15,5 +16,22 @@
         android:id="@+id/transaction_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:trackColor="@color/purple_700"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/no_transaction_found_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:text="No Transactons Found"/>
 
 </LinearLayout>

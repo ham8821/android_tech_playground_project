@@ -31,7 +31,7 @@ class BindableViewHolder(private val binding: ListItemTransactionBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(itemViewModel: Transaction) {
-        binding.transactionId.text = itemViewModel.summary
+        binding.transactionSummary.text = itemViewModel.summary
         binding.transactionDate.text = itemViewModel.transactionDate
         binding.transactionDebit.text = itemViewModel.debit
         binding.transactionCredit.text = itemViewModel.credit

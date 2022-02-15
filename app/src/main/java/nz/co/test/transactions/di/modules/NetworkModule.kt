@@ -35,7 +35,7 @@ class NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    //            .baseUrl("https://5e510330f2c0d300147c034c.mockapi.io/")
+
     @Singleton
     @Provides
     fun providesOkhttp(): OkHttpClient {

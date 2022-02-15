@@ -56,22 +56,24 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     }
 
     private fun initialiseObserver() {
-        viewModel.retrieveTransactions().observe(viewLifecycleOwner, Observer {
+        viewModel.retrieveTransactions().observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
                         binding.transactionList.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
+                        binding.progressCircular.visibility = View.GONE
                         resource.data?.let { users -> retrieveList(users) }
+                        binding.noTransactionFoundText.visibility = View.GONE
                     }
                     Status.ERROR -> {
                         binding.transactionList.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
-                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                        binding.progressCircular.visibility = View.GONE
+                        binding.noTransactionFoundText.text = it.message
                     }
                     Status.LOADING -> {
-//                        progressBar.visibility = View.VISIBLE
+                        binding.progressCircular.visibility = View.VISIBLE
                         binding.transactionList.visibility = View.GONE
+                        binding.noTransactionFoundText.visibility = View.GONE
                     }
                 }
             }

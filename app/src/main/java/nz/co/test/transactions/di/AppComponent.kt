@@ -16,11 +16,10 @@ import javax.inject.Singleton
         NetworkModule::class,
         DataModule::class,
         ViewModelModule::class,
-        ActivitiesModule::class,
         FragmentModule::class
     ]
 )
-
+//ActivitiesModule::class,
 interface AppComponent : AndroidInjector<App> {
     @Component.Builder
     interface Builder {

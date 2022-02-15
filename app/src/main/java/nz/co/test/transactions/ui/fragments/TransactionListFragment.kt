@@ -1,5 +1,6 @@
 package nz.co.test.transactions.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,19 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
-import nz.co.test.transactions.R
-import nz.co.test.transactions.Status
-import nz.co.test.transactions.TransactionListAdapter
-import nz.co.test.transactions.TransactionListViewModel
+import nz.co.test.transactions.*
 import nz.co.test.transactions.databinding.FragmentTransactonListBinding
 import nz.co.test.transactions.infrastructure.model.Transaction
 import javax.inject.Inject
 
 
-class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list) {
+class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list),
+    OnItemClickedListener<Transaction> {
 
     private var _binding: FragmentTransactonListBinding? = null
     private val binding get() = _binding!!
@@ -52,11 +52,8 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
                 (binding.transactionList.layoutManager as LinearLayoutManager).orientation
             )
         )
+        adapter.setItemClickedListener(this)
         binding.transactionList.adapter = adapter
-//        binding.button.setOnClickListener {
-//            Navigation.createNavigateOnClickListener(R.id.action_firstFragment_to_secondFragment);
-//        }
-
     }
 
     private fun initialiseObserver() {
@@ -96,6 +93,11 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClicked(item: Transaction) {
+        val directions = TransactionListFragmentDirections.actionFirstFragmentToSecondFragment()
+        findNavController().navigate(directions)
     }
 
 }

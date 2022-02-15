@@ -4,7 +4,7 @@ import nz.co.test.transactions.infrastructure.model.Transaction
 import retrofit2.http.GET
 
 interface TransactionsService {
-    @GET("transactions")
+    @GET("test-data.json")
     suspend fun retrieveTransactions(): List<Transaction>
 }
 

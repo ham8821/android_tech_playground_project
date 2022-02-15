@@ -5,13 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:layout_gravity="center_horizontal"
-        android:text="Transaction list"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transaction_list"
         android:layout_width="match_parent"
@@ -19,9 +12,10 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
         app:trackColor="@color/purple_700"
         android:visibility="visible"/>
 
@@ -30,8 +24,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="22sp"
+        android:layout_marginTop="100dp"
         android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:text="No Transactons Found"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to next screen" />
 
 </LinearLayout>

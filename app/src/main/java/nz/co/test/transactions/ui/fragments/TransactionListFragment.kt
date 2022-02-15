@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import nz.co.test.transactions.R
+import nz.co.test.transactions.Status
 import nz.co.test.transactions.TransactionListAdapter
 import nz.co.test.transactions.TransactionListViewModel
 import nz.co.test.transactions.databinding.FragmentTransactonListBinding
@@ -28,11 +31,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     }
 
     lateinit var adapter: TransactionListAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        AndroidSupportInjection.inject(this)
 
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,16 +44,42 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialiseObserver()
+        binding.transactionList.layoutManager = LinearLayoutManager(context)
+        adapter = TransactionListAdapter()
+        binding.transactionList.addItemDecoration(
+            DividerItemDecoration(
+                binding.transactionList.context,
+                (binding.transactionList.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        binding.transactionList.adapter = adapter
     }
 
     private fun initialiseObserver() {
-        viewModel.sortedTransactionList.observe(viewLifecycleOwner, Observer { transactions ->
-            transactions?.let { showTransactions(transactions) }
+        viewModel.retrieveTransactions().observe(viewLifecycleOwner, Observer {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        binding.transactionList.visibility = View.VISIBLE
+//                        progressBar.visibility = View.GONE
+                        resource.data?.let { users -> retrieveList(users) }
+                    }
+                    Status.ERROR -> {
+                        binding.transactionList.visibility = View.VISIBLE
+//                        progressBar.visibility = View.GONE
+                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    Status.LOADING -> {
+//                        progressBar.visibility = View.VISIBLE
+                        binding.transactionList.visibility = View.GONE
+                    }
+                }
+            }
         })
     }
 
-    private fun showTransactions(transactions: List<Transaction>) {
-        adapter.updateItems(transactions)
+    private fun retrieveList(users: List<Transaction>) {
+        adapter.updateItems(users)
     }
 
     override fun onResume() {
@@ -66,4 +91,5 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         super.onDestroyView()
         _binding = null
     }
+
 }

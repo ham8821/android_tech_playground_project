@@ -37,7 +37,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTransactonListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,25 +58,24 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     }
 
     private fun initialiseObserver() {
-        viewModel.retrieveTransactions().observe(viewLifecycleOwner, {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        binding.transactionList.visibility = View.VISIBLE
-                        binding.progressCircular.visibility = View.GONE
-                        resource.data?.let { users -> retrieveList(users) }
-                        binding.noTransactionFoundText.visibility = View.GONE
-                    }
-                    Status.ERROR -> {
-                        binding.transactionList.visibility = View.VISIBLE
-                        binding.progressCircular.visibility = View.GONE
-                        binding.noTransactionFoundText.text = it.message
-                    }
-                    Status.LOADING -> {
-                        binding.progressCircular.visibility = View.VISIBLE
-                        binding.transactionList.visibility = View.GONE
-                        binding.noTransactionFoundText.visibility = View.GONE
-                    }
+        viewModel.isLoading.observe(viewLifecycleOwner, { show ->
+            binding.progressCircular.visibility = if (show) View.VISIBLE else View.GONE
+        })
+
+        viewModel.showNoTransactonFoundView.observe(viewLifecycleOwner, { show ->
+            binding.noTransactionFoundText.visibility = if (show) View.VISIBLE else View.GONE
+        })
+
+        viewModel.showTransactions.observe(viewLifecycleOwner, { transactions ->
+
+            when(transactions.isNullOrEmpty()){
+                true -> {
+                    binding.transactionList.visibility = View.GONE
+                    binding.noTransactionFoundText.visibility = View.VISIBLE
+                }
+                false -> {
+                    retrieveList(transactions)
+                    binding.transactionList.visibility = View.VISIBLE
                 }
             }
         })

@@ -1,22 +1,21 @@
 package nz.co.test.transactions.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.flow.Flow
 import nz.co.test.transactions.*
 import nz.co.test.transactions.databinding.FragmentTransactonListBinding
 import nz.co.test.transactions.infrastructure.model.Transaction
 import nz.co.test.transactions.ui.bundles.TransactionItemBundle
+import java.util.*
 import javax.inject.Inject
+import kotlin.random.Random.Default.nextInt
 
 
 class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list),
@@ -42,6 +41,26 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.action_delete, menu)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete -> {
+                viewModel.removeAllTransaction()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialiseObserver()
@@ -55,6 +74,10 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         )
         adapter.setItemClickedListener(this)
         binding.transactionList.adapter = adapter
+        binding.addTransaction.setOnClickListener {
+            val transaction = Transaction((0..1000).random(),"raondom","summary","debit","credit")
+            viewModel.addTransaction(transaction)
+        }
     }
 
     private fun initialiseObserver() {
@@ -75,6 +98,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
                 }
                 false -> {
                     retrieveList(transactions)
+                    binding.noTransactionFoundText.visibility = View.GONE
                     binding.transactionList.visibility = View.VISIBLE
                 }
             }

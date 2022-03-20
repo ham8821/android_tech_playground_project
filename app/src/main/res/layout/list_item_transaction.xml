@@ -37,10 +37,20 @@
             tools:text="{VALUE}" />
 
         <TextView
-            android:id="@+id/transaction_date"
+            android:id="@+id/transaction_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/transaction_summary"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="4dp"
+            tools:text="{ID}" />
+
+
+        <TextView
+            android:id="@+id/transaction_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/transaction_id"
             android:layout_marginTop="4dp"
             android:paddingBottom="4dp"
             tools:text="{DATE}" />

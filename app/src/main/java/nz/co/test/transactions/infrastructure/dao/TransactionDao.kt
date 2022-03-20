@@ -9,7 +9,7 @@ interface TransactionDao {
     // The flow always holds/caches latest version of data. Notifies its observers when the
     // data has changed.
     @Query("SELECT * FROM transaction_table ORDER BY id ASC")
-    fun retrieveTransactions(): List<Transaction>
+    fun getTransactions(): Flow<List<Transaction>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(word: Transaction)

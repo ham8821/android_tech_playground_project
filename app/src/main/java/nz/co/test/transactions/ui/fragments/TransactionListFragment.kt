@@ -8,14 +8,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
-import kotlinx.coroutines.flow.Flow
 import nz.co.test.transactions.*
 import nz.co.test.transactions.databinding.FragmentTransactonListBinding
 import nz.co.test.transactions.infrastructure.model.Transaction
 import nz.co.test.transactions.ui.bundles.TransactionItemBundle
-import java.util.*
 import javax.inject.Inject
-import kotlin.random.Random.Default.nextInt
 
 
 class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list),
@@ -75,7 +72,8 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         adapter.setItemClickedListener(this)
         binding.transactionList.adapter = adapter
         binding.addTransaction.setOnClickListener {
-            val transaction = Transaction((0..1000).random(),"raondom","summary","debit","credit")
+            val transaction =
+                Transaction((0..1000).random(), "raondom", "summary", "debit", "credit")
             viewModel.addTransaction(transaction)
         }
     }
@@ -89,17 +87,19 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
             binding.noTransactionFoundText.visibility = if (show) View.VISIBLE else View.GONE
         })
 
-        viewModel.showTransactions.observe(viewLifecycleOwner, { transactions ->
+        viewModel.allTransactions.observe(viewLifecycleOwner, { transactions ->
 
-            when(transactions.isNullOrEmpty()){
+            when (transactions.isNullOrEmpty()) {
                 true -> {
                     binding.transactionList.visibility = View.GONE
                     binding.noTransactionFoundText.visibility = View.VISIBLE
+                    binding.progressCircular.visibility = View.GONE
                 }
                 false -> {
                     retrieveList(transactions)
                     binding.noTransactionFoundText.visibility = View.GONE
                     binding.transactionList.visibility = View.VISIBLE
+                    binding.progressCircular.visibility = View.GONE
                 }
             }
         })
@@ -111,7 +111,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
 
     override fun onResume() {
         super.onResume()
-        viewModel.retrieveTransactions()
+//        viewModel.retrieveTransactions()
     }
 
     override fun onDestroyView() {
@@ -120,8 +120,15 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     }
 
     override fun onItemClicked(item: Transaction) {
-        val transactionBundle = TransactionItemBundle(item.id, item.transactionDate, item.summary, item.debit, item.credit)
-        val directions = TransactionListFragmentDirections.actionFirstFragmentToSecondFragment(transactionBundle)
+        val transactionBundle = TransactionItemBundle(
+            item.id,
+            item.transactionDate,
+            item.summary,
+            item.debit,
+            item.credit
+        )
+        val directions =
+            TransactionListFragmentDirections.actionFirstFragmentToSecondFragment(transactionBundle)
         findNavController().navigate(directions)
     }
 

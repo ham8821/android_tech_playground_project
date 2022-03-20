@@ -1,12 +1,14 @@
 package nz.co.test.transactions.infrastructure.repository
 
+import kotlinx.coroutines.flow.Flow
 import nz.co.test.transactions.infrastructure.dao.TransactionDao
 import nz.co.test.transactions.infrastructure.model.Transaction
 import nz.co.test.transactions.infrastructure.services.TransactionsService
 import javax.inject.Inject
 
 class TransactionsLocalRepository @Inject constructor(private val transactionDao: TransactionDao) {
-    suspend fun getAllTransactions() = transactionDao.retrieveTransactions()
+
+    val allTransactions: Flow<List<Transaction>> = transactionDao.getTransactions()
 
     suspend fun addTransaction(transaction: Transaction){
         transactionDao.insert(transaction)

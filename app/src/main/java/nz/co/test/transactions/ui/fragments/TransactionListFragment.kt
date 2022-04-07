@@ -2,6 +2,7 @@ package nz.co.test.transactions.ui.fragments
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,7 +13,9 @@ import nz.co.test.transactions.*
 import nz.co.test.transactions.databinding.FragmentTransactonListBinding
 import nz.co.test.transactions.infrastructure.model.Transaction
 import nz.co.test.transactions.ui.bundles.TransactionItemBundle
+import java.util.*
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list),
@@ -28,6 +31,9 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     }
 
     lateinit var adapter: TransactionListAdapter
+    var savedQuery: String? = ""
+    var newSearchResult: Array<Transaction>? = null
+    var currentTransactions: List<Transaction> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,10 +78,47 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         adapter.setItemClickedListener(this)
         binding.transactionList.adapter = adapter
         binding.addTransaction.setOnClickListener {
+            val type = arrayOf("debit", "credit")
+            val randomType = type.random()
             val transaction =
-                Transaction((0..1000).random(), "raondom", "summary", "debit", "credit")
+                Transaction(
+                    (0..20).random(),
+                    "2005" + (Math.random() * 10).roundToInt(),
+                    Random().toString(),
+                    randomType,
+                    randomType
+                )
             viewModel.addTransaction(transaction)
         }
+        setSearchView()
+    }
+
+    private fun setSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (savedQuery != query) {
+                    savedQuery = query
+                    newSearchResult = viewModel.searchTransactions(currentTransactions, query)
+                    newSearchResult?.toList()?.let { retrieveList(it) }
+                }
+                if (query.equals(""))
+                    adapter.updateItems(currentTransactions)
+                return true
+            }
+
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (savedQuery != newText) {
+                    savedQuery = newText
+                    newSearchResult = viewModel.searchTransactions(currentTransactions, newText)
+                    newSearchResult?.toList()?.let { retrieveList(it) }
+                }
+                if (newText.equals(""))
+                    adapter.updateItems(currentTransactions)
+                return true
+            }
+        })
     }
 
     private fun initialiseObserver() {
@@ -96,6 +139,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
                     binding.progressCircular.visibility = View.GONE
                 }
                 false -> {
+                    currentTransactions = transactions
                     retrieveList(transactions)
                     binding.noTransactionFoundText.visibility = View.GONE
                     binding.transactionList.visibility = View.VISIBLE
@@ -107,11 +151,6 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
 
     private fun retrieveList(users: List<Transaction>) {
         adapter.updateItems(users)
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        viewModel.retrieveTransactions()
     }
 
     override fun onDestroyView() {

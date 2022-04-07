@@ -39,5 +39,20 @@ class TransactionListViewModel @Inject constructor(
             transactionsLocalRepository.removeAllTransactions()
         }
     }
+
+    fun searchTransactions(transaction: List<Transaction>, savedQuery: String): Array<Transaction>? {
+        return transaction // for unit tests that fill partial data
+            .filter {
+                it.summary hasQuery savedQuery ||
+                        it.id.toString() hasQuery savedQuery
+                //                        it.transactionDetail?.mOtherAccountStatementDetail hasQuery queryString ||
+                //                        getTargetAmountString(it.amount!! > 0, it.formattedAmount, queryString) hasQuery getSearchAmountString(queryString)
+            }.toTypedArray()
+    }
+
+    private infix fun String?.hasQuery(queryString: String): Boolean {
+        return this?.contains(queryString, ignoreCase = true) ?: false
+    }
+
 }
 

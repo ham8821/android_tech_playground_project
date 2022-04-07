@@ -1,8 +1,11 @@
 package nz.co.test.transactions.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,6 +15,8 @@ import dagger.android.support.DaggerFragment
 import nz.co.test.transactions.*
 import nz.co.test.transactions.databinding.FragmentTransactonListBinding
 import nz.co.test.transactions.infrastructure.model.Transaction
+import nz.co.test.transactions.ui.Utility
+import nz.co.test.transactions.ui.activities.MainActivity
 import nz.co.test.transactions.ui.bundles.TransactionItemBundle
 import java.util.*
 import javax.inject.Inject
@@ -46,7 +51,67 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.action_delete, menu)
+        inflater.inflate(R.menu.menu_search, menu)
+        val item = menu.findItem(R.id.search)
+        val sv = SearchView(
+            (activity as MainActivity?)!!.supportActionBar!!.themedContext
+        )
+        MenuItemCompat.setShowAsAction(
+            item,
+            MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItemCompat.SHOW_AS_ACTION_IF_ROOM
+        )
+        MenuItemCompat.setActionView(item, sv)
+        sv.setIconifiedByDefault(false)
+        sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                Utility.hidesSoftKeyboard(activity as MainActivity)
+                if (activity!!.window != null) {
+                    val inputManager =
+                        activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputManager.hideSoftInputFromWindow(activity!!.window.decorView.windowToken, 0)}
+                if (savedQuery != query) {
+                    savedQuery = query
+                    newSearchResult = viewModel.searchTransactions(currentTransactions, query)
+                    newSearchResult?.toList()?.let {
+                        when (it.isNullOrEmpty()) {
+                            true -> {
+                                showListUI()
+                            }
+                            false -> {
+                                retrieveList(it)
+                                showNotFoundUI()
+                            }
+                        }
+                    }
+                }
+                if (query == "")
+                    adapter.updateItems(currentTransactions)
+                return true
+            }
+
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (savedQuery != newText) {
+                    savedQuery = newText
+                    newSearchResult = viewModel.searchTransactions(currentTransactions, newText)
+                    newSearchResult?.toList()?.let {
+                        when (it.isNullOrEmpty()) {
+                            true -> {
+                                showListUI()
+                            }
+                            false -> {
+                                retrieveList(it)
+                                showNotFoundUI()
+                            }
+                        }
+                    }
+                }
+                if (newText == "")
+                    adapter.updateItems(currentTransactions)
+                return true
+            }
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,35 +155,6 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
                 )
             viewModel.addTransaction(transaction)
         }
-        setSearchView()
-    }
-
-    private fun setSearchView() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            android.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                if (savedQuery != query) {
-                    savedQuery = query
-                    newSearchResult = viewModel.searchTransactions(currentTransactions, query)
-                    newSearchResult?.toList()?.let { retrieveList(it) }
-                }
-                if (query.equals(""))
-                    adapter.updateItems(currentTransactions)
-                return true
-            }
-
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (savedQuery != newText) {
-                    savedQuery = newText
-                    newSearchResult = viewModel.searchTransactions(currentTransactions, newText)
-                    newSearchResult?.toList()?.let { retrieveList(it) }
-                }
-                if (newText.equals(""))
-                    adapter.updateItems(currentTransactions)
-                return true
-            }
-        })
     }
 
     private fun initialiseObserver() {
@@ -134,23 +170,31 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
 
             when (transactions.isNullOrEmpty()) {
                 true -> {
-                    binding.transactionList.visibility = View.GONE
-                    binding.noTransactionFoundText.visibility = View.VISIBLE
-                    binding.progressCircular.visibility = View.GONE
+                    showListUI()
                 }
                 false -> {
                     currentTransactions = transactions
                     retrieveList(transactions)
-                    binding.noTransactionFoundText.visibility = View.GONE
-                    binding.transactionList.visibility = View.VISIBLE
-                    binding.progressCircular.visibility = View.GONE
+                    showNotFoundUI()
                 }
             }
         })
     }
 
+    private fun showNotFoundUI() {
+        binding.noTransactionFoundText.visibility = View.GONE
+        binding.transactionList.visibility = View.VISIBLE
+        binding.progressCircular.visibility = View.GONE
+    }
+
+    private fun showListUI() {
+        binding.transactionList.visibility = View.GONE
+        binding.noTransactionFoundText.visibility = View.VISIBLE
+        binding.progressCircular.visibility = View.GONE
+    }
+
     private fun retrieveList(users: List<Transaction>) {
-        adapter.updateItems(users)
+            adapter.updateItems(users)
     }
 
     override fun onDestroyView() {

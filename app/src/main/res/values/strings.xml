@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Transactions</string>
     <string name="search_hint">Search Transaction</string>
+    <string name="no_transactions_found">No Transactions Found</string>
 </resources>

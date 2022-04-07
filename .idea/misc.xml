@@ -12,6 +12,8 @@
         <entry key="app/src/main/res/layout/fragment_transacton_list.xml" value="0.33177083333333335" />
         <entry key="app/src/main/res/layout/list_item_transaction.xml" value="0.33" />
         <entry key="app/src/main/res/menu/action_delete.xml" value="0.328125" />
+        <entry key="app/src/main/res/menu/menu_search.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/xml/searchable.xml" value="0.32447916666666665" />
       </map>
     </option>
   </component>

@@ -57,6 +57,7 @@ class TaskFragment : DaggerFragment(R.layout.fragment_task) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initialiseObserver()
         with(args.transactionBundle) {
             currentTask = Task(id, date, title, description)

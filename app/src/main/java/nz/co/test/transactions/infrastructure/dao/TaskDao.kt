@@ -8,7 +8,7 @@ import nz.co.test.transactions.infrastructure.model.Task
 interface TaskDao {
     // The flow always holds/caches latest version of data. Notifies its observers when the
     // data has changed.
-    @Query("SELECT * FROM task_table ORDER BY date ASC")
+    @Query("SELECT * FROM task_table ORDER BY date DESC")
     fun getTasks(): Flow<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

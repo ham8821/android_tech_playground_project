@@ -18,6 +18,7 @@ import nz.co.test.transactions.infrastructure.model.Transaction
 import nz.co.test.transactions.ui.Utility
 import nz.co.test.transactions.ui.activities.MainActivity
 import nz.co.test.transactions.ui.bundles.TransactionItemBundle
+import org.geeksforgeeks.gfgmodalsheet.BottomSheetDialog
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -143,17 +144,22 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         adapter.setItemClickedListener(this)
         binding.transactionList.adapter = adapter
         binding.addTransaction.setOnClickListener {
-            val type = arrayOf("debit", "credit")
-            val randomType = type.random()
-            val transaction =
-                Transaction(
-                    (0..20).random(),
-                    "2005" + (Math.random() * 10).roundToInt(),
-                    Random().toString(),
-                    randomType,
-                    randomType
-                )
-            viewModel.addTransaction(transaction)
+            val bottomSheet = BottomSheetDialog()
+            bottomSheet.show(
+                activity?.supportFragmentManager!!,
+                "ModalBottomSheet"
+            )
+//            val type = arrayOf("debit", "credit")
+//            val randomType = type.random()
+//            val transaction =
+//                Transaction(
+//                    (0..20).random(),
+//                    "2005" + (Math.random() * 10).roundToInt(),
+//                    Random().toString(),
+//                    randomType,
+//                    randomType
+//                )
+//            viewModel.addTransaction(transaction)
         }
     }
 

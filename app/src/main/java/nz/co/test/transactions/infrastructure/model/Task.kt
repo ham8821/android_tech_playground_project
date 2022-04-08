@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "task_table")
 data class Task(
-    @SerializedName("id") @PrimaryKey @ColumnInfo(name = "id") val id: Int,
-    @SerializedName("transactionDate") @ColumnInfo(name = "date") val transactionDate: String,
+    @SerializedName("id") @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int? = null,
+    @SerializedName("date") @ColumnInfo(name = "date") val date: String,
     @SerializedName("summary") @ColumnInfo(name = "title") val title: String,
     @SerializedName("debit") @ColumnInfo(name = "description") val description: String
 )

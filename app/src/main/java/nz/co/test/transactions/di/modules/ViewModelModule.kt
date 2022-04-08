@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
-import nz.co.test.transactions.TransactionListViewModel
+import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.ViewModelFactory
 import kotlin.reflect.KClass
 
@@ -14,8 +14,8 @@ import kotlin.reflect.KClass
 abstract class ViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(TransactionListViewModel::class)
-    abstract fun bindTransactionListViewModel(transactionListViewModel: TransactionListViewModel): ViewModel
+    @ViewModelKey(TaskViewModel::class)
+    abstract fun bindTransactionListViewModel(taskViewModel: TaskViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

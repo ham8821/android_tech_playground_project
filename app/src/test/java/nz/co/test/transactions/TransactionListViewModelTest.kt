@@ -1,7 +1,5 @@
 package nz.co.test.transactions
 
-import android.content.res.Resources
-import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,8 +9,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import nz.co.test.transactions.infrastructure.model.Transaction
 import nz.co.test.transactions.infrastructure.repository.TransactionsRepository
-import org.junit.Assert
-import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,23 +16,19 @@ import org.junit.rules.TestRule
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.BDDMockito.given
-import org.mockito.Mockito.doThrow
 import java.lang.Exception
-import java.lang.IllegalStateException
 
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class TransactionListViewModelTest {
 
-    lateinit var viewModel: TransactionListViewModel
+    lateinit var viewModel: TaskViewModel
 
     @Mock
     private lateinit var repository: TransactionsRepository
@@ -51,7 +43,7 @@ class TransactionListViewModelTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        viewModel = TransactionListViewModel(repository)
+        viewModel = TaskViewModel(repository)
     }
 
     @Test

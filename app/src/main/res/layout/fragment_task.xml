@@ -7,18 +7,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/detail_header_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:background="@color/cardview_dark_background"
-        android:layout_gravity="start"
-        android:textColor="@color/white"
-        android:text="Transaction Detail"/>
-
     <androidx.cardview.widget.CardView
     android:id="@+id/card_view"
     android:layout_width="match_parent"
@@ -55,7 +43,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/transaction_summary"
+                    android:id="@+id/task_summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
@@ -64,29 +52,10 @@
                     tools:text="{NAME}" />
 
                 <TextView
-                    android:id="@+id/transaction_id"
+                    android:id="@+id/task_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/teal_700"
-                    android:textSize="14dp"
-                    tools:background="#38FF0000"
-                    tools:text="{DATE}" />
-
-
-                <TextView
-                    android:id="@+id/transaction_credit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/teal_700"
-                    android:textSize="14dp"
-                    tools:background="#38FF0000"
-                    tools:text="{DATE}" />
-
-                <TextView
-                    android:id="@+id/transaction_debit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/red"
                     android:textSize="14dp"
                     tools:background="#38FF0000"
                     tools:text="{DATE}" />
@@ -106,20 +75,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/transaction_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                tools:background="#38FF0000"
-                tools:text="{CONTENT}" />
-
-            <TextView
-                android:id="@+id/trasaction_gst"
+                android:id="@+id/task_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:gravity="end"
-                android:text="GST*"
                 tools:background="#38FF0000"
                 tools:text="{CONTENT}" />
 

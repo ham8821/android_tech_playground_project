@@ -7,46 +7,50 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
-import nz.co.test.transactions.*
-import nz.co.test.transactions.databinding.FragmentTransactonListBinding
-import nz.co.test.transactions.infrastructure.model.Transaction
-import nz.co.test.transactions.ui.Utility
+import nz.co.kiwibank.mobile.ui.utils.ui.NavigationResultsKey
+import nz.co.test.transactions.OnItemClickedListener
+import nz.co.test.transactions.R
+import nz.co.test.transactions.TransactionListAdapter
+import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.databinding.FragmentTaskListDashboardBinding
+import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.activities.MainActivity
-import nz.co.test.transactions.ui.bundles.TransactionItemBundle
-import org.geeksforgeeks.gfgmodalsheet.BottomSheetDialog
-import java.util.*
+import nz.co.test.transactions.ui.bundles.TaskItemBundle
+import nz.co.test.transactions.ui.utils.Utility
+import nz.co.test.transactions.ui.utils.Utility.makeToast
+import nz.co.test.transactions.ui.utils.getNavigationResult
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 
-class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list),
-    OnItemClickedListener<Transaction> {
+class TaskDashboardFragment : DaggerFragment(R.layout.fragment_task_list_dashboard),
+    OnItemClickedListener<Task> {
 
-    private var _binding: FragmentTransactonListBinding? = null
+    private var _binding: FragmentTaskListDashboardBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: TransactionListViewModel by viewModels {
+    private val viewModel: TaskViewModel by viewModels {
         viewModelFactory
     }
 
     lateinit var adapter: TransactionListAdapter
     var savedQuery: String? = ""
-    var newSearchResult: Array<Transaction>? = null
-    var currentTransactions: List<Transaction> = emptyList()
+    var newSearchResult: Array<Task>? = null
+    var currentTransactions: List<Task> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTransactonListBinding.inflate(inflater, container, false)
+        _binding = FragmentTaskListDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -73,7 +77,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
                     inputManager.hideSoftInputFromWindow(activity!!.window.decorView.windowToken, 0)}
                 if (savedQuery != query) {
                     savedQuery = query
-                    newSearchResult = viewModel.searchTransactions(currentTransactions, query)
+                    newSearchResult = viewModel.searchTask(currentTransactions, query)
                     newSearchResult?.toList()?.let {
                         when (it.isNullOrEmpty()) {
                             true -> {
@@ -95,7 +99,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
             override fun onQueryTextChange(newText: String): Boolean {
                 if (savedQuery != newText) {
                     savedQuery = newText
-                    newSearchResult = viewModel.searchTransactions(currentTransactions, newText)
+                    newSearchResult = viewModel.searchTask(currentTransactions, newText)
                     newSearchResult?.toList()?.let {
                         when (it.isNullOrEmpty()) {
                             true -> {
@@ -123,7 +127,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_delete -> {
-                viewModel.removeAllTransaction()
+                viewModel.removeAllTasks()
                 return true
             }
         }
@@ -133,6 +137,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialiseObserver()
+        setupNavigationResultObserver()
         binding.transactionList.layoutManager = LinearLayoutManager(context)
         adapter = TransactionListAdapter()
         binding.transactionList.addItemDecoration(
@@ -149,17 +154,6 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
                 activity?.supportFragmentManager!!,
                 "ModalBottomSheet"
             )
-//            val type = arrayOf("debit", "credit")
-//            val randomType = type.random()
-//            val transaction =
-//                Transaction(
-//                    (0..20).random(),
-//                    "2005" + (Math.random() * 10).roundToInt(),
-//                    Random().toString(),
-//                    randomType,
-//                    randomType
-//                )
-//            viewModel.addTransaction(transaction)
         }
     }
 
@@ -172,20 +166,32 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
             binding.noTransactionFoundText.visibility = if (show) View.VISIBLE else View.GONE
         })
 
-        viewModel.allTransactions.observe(viewLifecycleOwner, { transactions ->
+        viewModel.allTasks.observe(viewLifecycleOwner, { tasks ->
 
-            when (transactions.isNullOrEmpty()) {
+            when (tasks.isNullOrEmpty()) {
                 true -> {
                     showListUI()
                 }
                 false -> {
-                    currentTransactions = transactions
-                    retrieveList(transactions)
+                    currentTransactions = tasks
+                    retrieveList(tasks)
                     showNotFoundUI()
                 }
             }
         })
     }
+
+    private fun setupNavigationResultObserver() {
+        this.getNavigationResult<Task>(NavigationResultsKey.TaskResult.TaskUpdateAction)?.observe(viewLifecycleOwner, Observer { task ->
+            if (task != null) {
+                viewModel.addTask(task)
+            } else {
+                makeToast(context, "task wasn't added.")
+            }
+        })
+
+    }
+
 
     private fun showNotFoundUI() {
         binding.noTransactionFoundText.visibility = View.GONE
@@ -199,7 +205,7 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         binding.progressCircular.visibility = View.GONE
     }
 
-    private fun retrieveList(users: List<Transaction>) {
+    private fun retrieveList(users: List<Task>) {
             adapter.updateItems(users)
     }
 
@@ -208,16 +214,15 @@ class TransactionListFragment : DaggerFragment(R.layout.fragment_transacton_list
         _binding = null
     }
 
-    override fun onItemClicked(item: Transaction) {
-        val transactionBundle = TransactionItemBundle(
-            item.id,
-            item.transactionDate,
-            item.summary,
-            item.debit,
-            item.credit
+    override fun onItemClicked(item: Task) {
+        val taskItemBundle = TaskItemBundle(
+            item.id!!,
+            item.date,
+            item.title,
+            item.description,
         )
         val directions =
-            TransactionListFragmentDirections.actionFirstFragmentToSecondFragment(transactionBundle)
+            TaskDashboardFragmentDirections.actionFirstFragmentToSecondFragment(taskItemBundle)
         findNavController().navigate(directions)
     }
 

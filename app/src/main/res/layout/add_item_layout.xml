@@ -4,27 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is a Modal BottomSheet"
-        android:textSize="25sp" />
+        android:text="@string/add_task"
+        android:background="@color/teal_200"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:padding="@dimen/font_16"
+        android:textSize="@dimen/font_22" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/font_16">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/task_name"
+            android:textSize="@dimen/font_16" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_task_name_hint"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="10"/>
+
+        <TextView
+            android:id="@+id/task_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/task_description"
+            android:textSize="@dimen/font_16" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:hint="@string/add_task_description_hint"
+            android:maxLines="10"/>
+    </LinearLayout>
 
     <Button
         android:layout_margin="10dp"
-        android:id="@+id/algo_button"
+        android:id="@+id/add_button"
+        android:backgroundTint="@color/teal_200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share this Algorithm" />
-
-    <Button
-        android:layout_margin="10dp"
-        android:id="@+id/course_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share this Course" />
+        android:text="Add" />
 
 </LinearLayout>

@@ -1,42 +1,62 @@
-package org.geeksforgeeks.gfgmodalsheet
+package nz.co.test.transactions.ui.fragments
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import nz.co.test.transactions.R
-import android.widget.Toast
+import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.android.support.AndroidSupportInjection
+import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.databinding.AddItemLayoutBinding
+import nz.co.test.transactions.infrastructure.model.Task
+import nz.co.test.transactions.ui.utils.Utility.getFormattedCurrentDate
+import nz.co.test.transactions.ui.utils.Utility.makeToast
+import javax.inject.Inject
 
 class BottomSheetDialog : BottomSheetDialogFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: TaskViewModel by viewModels {
+        viewModelFactory
+    }
+
+    private var _binding: AddItemLayoutBinding? = null
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(
-            R.layout.add_item_layout,
-            container, false
-        )
-        val algo_button = v.findViewById<Button>(R.id.algo_button)
-        val course_button = v.findViewById<Button>(R.id.course_button)
-        algo_button.setOnClickListener {
-            Toast.makeText(
-                activity,
-                "Algorithm Shared", Toast.LENGTH_SHORT
+    ): View {
+        _binding = AddItemLayoutBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.addButton.setOnClickListener {
+            val task = Task(null,
+                getFormattedCurrentDate(),
+                binding.taskTitle.text.toString(),
+                binding.taskDescription.text.toString()
             )
-                .show()
+            viewModel.addTask(task)
+            makeToast(context, "Task updated.")
             dismiss()
         }
-        course_button.setOnClickListener {
-            Toast.makeText(
-                activity,
-                "Course Shared", Toast.LENGTH_SHORT
-            )
-                .show()
-            dismiss()
-        }
-        return v
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

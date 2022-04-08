@@ -2,6 +2,7 @@ package nz.co.test.transactions.di.modules
 
 import dagger.Module
 import dagger.Provides
+import nz.co.test.transactions.infrastructure.services.TaskService
 import nz.co.test.transactions.infrastructure.services.TransactionsService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -16,6 +17,10 @@ class NetworkModule {
     @Provides
     fun providesTransactionService(retrofit: Retrofit): TransactionsService =
         retrofit.create(TransactionsService::class.java)
+
+    @Provides
+    fun providesTaskService(retrofit: Retrofit): TaskService =
+        retrofit.create(TaskService::class.java)
 
     @Provides
     @Singleton

@@ -30,7 +30,7 @@
         android:visibility="visible"
         android:layout_centerVertical="true"
         android:layout_gravity="center_horizontal"
-        android:text="@string/no_transactions_found"/>
+        android:text="@string/no_task_found"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_transaction"

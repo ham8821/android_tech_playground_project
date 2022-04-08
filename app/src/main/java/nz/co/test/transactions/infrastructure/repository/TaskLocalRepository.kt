@@ -10,15 +10,15 @@ import javax.inject.Inject
 class TaskLocalRepository @Inject constructor(private val taskDao: TaskDao){
     val allTask: Flow<List<Task>> = taskDao.getTasks()
 
-    suspend fun addTransaction(task: Task){
+    suspend fun addTask(task: Task){
         taskDao.insert(task)
     }
 
-    suspend fun removeTransaction(task: Task){
+    suspend fun removeTask(task: Task){
         taskDao.deleteTask(task)
     }
 
-    suspend fun removeAllTransactions() {
+    suspend fun removeAllTasks() {
         taskDao.deleteAll()
     }
 }

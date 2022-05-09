@@ -1,3 +1,5 @@
+import Versions.coil
+import Versions.compose
 import Versions.kotlin
 import Versions.lifecycle
 import Versions.navigation
@@ -25,6 +27,9 @@ object Versions{
     val coroutines_test = "1.3.6"
     val mockito_core = "4.3.1"
     val test = "1.4.0"
+    val compose = "1.1.1"
+    val compose_constraintlayout = "1.0.0-beta02"
+    val coil = "1.4.0"
 }
 
 object Deps {
@@ -63,10 +68,19 @@ object Deps {
     // Navigation
     val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:$navigation"
     val navigation_ui = "androidx.navigation:navigation-ui-ktx:$navigation"
+    val navigation_compose = "androidx.navigation:navigation-compose:$navigation"
 
+    // Compose
+    val compose_foundataion = "androidx.compose.foundation:foundation:$compose"
+    val compose_material = "androidx.compose.material:material:$compose"
+    val compose_tooling = "androidx.compose.ui:ui-tooling:$compose"
+    val compose_coil = "io.coil-kt:coil-compose:$coil"
+
+    val compose_constraintlayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.compose_constraintlayout}"
     // Room
     val room = "androidx.room:room-ktx:${Versions.room}"
     val compiler = "androidx.room:room-compiler:${Versions.room}"
+
     val testing = "androidx.room:room-testing:${Versions.room}"
 
     // Test

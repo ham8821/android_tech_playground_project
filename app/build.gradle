@@ -87,9 +87,17 @@ dependencies {
     implementation Deps.runtime
     implementation Deps.livedata
 
+    // Compose
+    implementation Deps.compose_foundataion
+    implementation Deps.compose_material
+    implementation Deps.compose_tooling
+    implementation Deps.compose_constraintlayout
+    implementation Deps.compose_coil
+
     // Navigation
     implementation Deps.navigation_fragment
     implementation Deps.navigation_ui
+    implementation Deps.navigation_compose
 
     implementation Deps.room
     kapt Deps.compiler

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion Versions.compileSdk
     buildToolsVersion "30.0.3"
 
     buildFeatures {
@@ -15,8 +15,8 @@ android {
 
     defaultConfig {
         applicationId "nz.co.test.transactions"
-        minSdkVersion 28
-        targetSdkVersion 31
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
         versionCode 1
         versionName "1.0"
 
@@ -40,63 +40,57 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.test.espresso:espresso-contrib:3.4.0'
-    def dagger_version = '2.38'
+    // Dagger
+    kapt Deps.dagger_android_processor
+    implementation Deps.dagger_android_support
+    implementation Deps.dagger_android
+    kapt Deps.dagger_compiler
+    implementation Deps.dagger
 
-    implementation "com.google.dagger:dagger:${dagger_version}"
-    kapt "com.google.dagger:dagger-compiler:${dagger_version}"
+    // Kotlin
+    implementation Deps.kotlin_stdlib
 
-    implementation "com.google.dagger:dagger-android:${dagger_version}"
-    implementation "com.google.dagger:dagger-android-support:${dagger_version}"
-    kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
+    // Retrofit
+    implementation Deps.retrofit
+    implementation Deps.logging
+    implementation Deps.gson
+    implementation Deps.gson_converter
 
-    def kotlin_version = '1.5.20'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // Ui
+    implementation Deps.core
+    implementation Deps.appcompat
+    implementation Deps.material
+    implementation Deps.constraintlayout
+    implementation Deps.joda
+    implementation Deps.fragment
 
-    def fragment_version = '1.3.6'
-    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    // Coroutines
+    implementation Deps.coroutine
 
-    def retrofit_version = '2.9.0'
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
-    implementation "com.google.code.gson:gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    // Testing
+    testImplementation Deps.junit
+    androidTestImplementation Deps.ext
+    androidTestImplementation Deps.espresso_core
+    implementation Deps.espresso
 
-    // viewModel
-    def lifecycle_version = '2.2.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    testImplementation Deps.arch_core
+    testImplementation Deps.coroutines_test
+    testImplementation Deps.mockito_core
 
-    //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
-    implementation 'joda-time:joda-time:2.10.6'
+    androidTestImplementation Deps.rules
+    androidTestImplementation Deps.runner
+    androidTestImplementation Deps.testing
 
-    //Testing
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // LifeCycle
+    implementation Deps.viewmodel
+    implementation Deps.common
+    implementation Deps.runtime
+    implementation Deps.livedata
 
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.6'
-    testImplementation 'org.mockito:mockito-core:4.3.1'
+    // Navigation
+    implementation Deps.navigation_fragment
+    implementation Deps.navigation_ui
 
-    androidTestImplementation 'androidx.test:rules:1.4.0'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-
-    //LifeCycle
-    implementation 'androidx.lifecycle:lifecycle-common:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    def nav_version = "2.4.1"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-    def roomVersion = '2.4.1'
-    implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$roomVersion"
+    implementation Deps.room
+    kapt Deps.compiler
 }

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -11,6 +12,11 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion Versions.compose
     }
 
     defaultConfig {
@@ -91,6 +97,7 @@ dependencies {
     implementation Deps.compose_foundataion
     implementation Deps.compose_material
     implementation Deps.compose_tooling
+    implementation Deps.compose_compiler
     implementation Deps.compose_constraintlayout
     implementation Deps.compose_coil
 

@@ -28,6 +28,7 @@ object Versions{
     const val mockito_core = "4.3.1"
     const val test = "1.4.0"
     const val compose = "1.1.1"
+    const val compose_compiler = "1.0.0-beta08"
     const val compose_constraintlayout = "1.0.0-beta02"
     const val coil = "1.4.0"
 }
@@ -50,7 +51,7 @@ object Deps {
 
     // Ui
     const val fragment = "androidx.fragment:fragment-ktx:${Versions.fragment}"
-    const val core = "androidx.core:core-ktx:1.6.0"
+    const val core = "androidx.core:core-ktx:1.6.10"
     const val appcompat = "androidx.appcompat:appcompat:1.3.1"
     const val material = "com.google.android.material:material:1.4.0"
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.4"
@@ -74,6 +75,7 @@ object Deps {
     const val compose_foundataion = "androidx.compose.foundation:foundation:$compose"
     const val compose_material = "androidx.compose.material:material:$compose"
     const val compose_tooling = "androidx.compose.ui:ui-tooling:$compose"
+    const val compose_compiler = "androidx.compose.compiler:compiler:${Versions.compose_compiler}"
     const val compose_coil = "io.coil-kt:coil-compose:$coil"
 
     val compose_constraintlayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.compose_constraintlayout}"

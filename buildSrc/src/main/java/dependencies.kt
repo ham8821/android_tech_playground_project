@@ -10,7 +10,7 @@ object Versions{
     const val targetSdk = 31
     const val compileSdk = 31
 
-    const val kotlin = "1.5.20"
+    const val kotlin = "1.6.0"
     const val dagger  = "2.38"
     const val retrofit = "2.9.0"
     const val logger = "3.12.0"
@@ -27,7 +27,7 @@ object Versions{
     const val coroutines_test = "1.3.6"
     const val mockito_core = "4.3.1"
     const val test = "1.4.0"
-    const val compose = "1.1.1"
+    const val compose = "1.1.0-beta04"
     const val compose_compiler = "1.0.0-beta08"
     const val compose_constraintlayout = "1.0.0-beta02"
     const val coil = "1.4.0"
@@ -51,7 +51,7 @@ object Deps {
 
     // Ui
     const val fragment = "androidx.fragment:fragment-ktx:${Versions.fragment}"
-    const val core = "androidx.core:core-ktx:1.6.10"
+    const val core = "androidx.core:core-ktx:1.9.0-alpha03"
     const val appcompat = "androidx.appcompat:appcompat:1.3.1"
     const val material = "com.google.android.material:material:1.4.0"
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.4"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_margin">12sp</dimen>
-
+    <dimen name="divider_size">1dp</dimen>
     <dimen name="font_8">8sp</dimen>
     <dimen name="font_10">10sp</dimen>
     <dimen name="font_12">12sp</dimen>

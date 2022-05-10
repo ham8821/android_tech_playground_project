@@ -64,7 +64,7 @@ fun TaskViewHolder(
         TaskIdentifierTextView(state.taskIdentifier, modifier = Modifier.constrainAs(taskIDView) {
             width = Dimension.wrapContent
             start.linkTo(
-                anchor = taskDescriptionView.end,
+                anchor = dateView.start,
                 margin = standardMargin
             )
             top.linkTo(dateView.bottom)
@@ -151,6 +151,6 @@ fun ArticleViewHolderPreview() {
                         id = R.dimen.default_margin
                     )
                 )
-        )
+        ) { nz.co.test.transactions.ui.compose.SnackbarScreen() }
     }
 }

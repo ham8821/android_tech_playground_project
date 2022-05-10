@@ -166,19 +166,19 @@ class TaskDashboardFragment : DaggerFragment(R.layout.fragment_task_list_dashboa
             binding.noTransactionFoundText.visibility = if (show) View.VISIBLE else View.GONE
         })
 
-        viewModel.allTasks.observe(viewLifecycleOwner, { tasks ->
-
-            when (tasks.isNullOrEmpty()) {
-                true -> {
-                    showListUI()
-                }
-                false -> {
-                    currentTransactions = tasks
-                    retrieveList(tasks)
-                    showNotFoundUI()
-                }
-            }
-        })
+//        viewModel.allTasks.observe(viewLifecycleOwner, { tasks ->
+//
+//            when (tasks.isNullOrEmpty()) {
+//                true -> {
+//                    showListUI()
+//                }
+//                false -> {
+//                    currentTransactions = tasks
+//                    retrieveList(tasks)
+//                    showNotFoundUI()
+//                }
+//            }
+//        })
     }
 
     private fun setupNavigationResultObserver() {

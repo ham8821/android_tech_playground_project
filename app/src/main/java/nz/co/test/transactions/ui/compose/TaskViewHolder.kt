@@ -151,6 +151,6 @@ fun ArticleViewHolderPreview() {
                         id = R.dimen.default_margin
                     )
                 )
-        ) { nz.co.test.transactions.ui.compose.SnackbarScreen() }
+        )
     }
 }

@@ -9,10 +9,11 @@ import nz.co.test.transactions.ui.states.TaskListViewState
 import nz.co.test.transactions.ui.utils.hasQuery
 import javax.inject.Inject
 import androidx.compose.runtime.getValue
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import nz.co.test.transactions.ui.states.TaskViewHolderState
 
-
+@HiltViewModel
 class TaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val taskLocalRepository: TaskLocalRepository

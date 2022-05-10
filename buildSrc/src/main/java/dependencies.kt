@@ -11,7 +11,6 @@ object Versions{
     const val compileSdk = 31
 
     const val kotlin = "1.6.0"
-    const val dagger  = "2.38"
     const val retrofit = "2.9.0"
     const val logger = "3.12.0"
     const val fragment = "1.3.6"
@@ -31,17 +30,22 @@ object Versions{
     const val compose_compiler = "1.0.0-beta08"
     const val compose_constraintlayout = "1.0.0-beta02"
     const val coil = "1.4.0"
+    const val hilt = "2.39.1"
 }
 
 object Deps {
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin"
 
-    // Dagger
-    const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
-    const val dagger_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
-    const val dagger_android = "com.google.dagger:dagger-android:${Versions.dagger}"
-    const val dagger_android_support = "com.google.dagger:dagger-android-support:${Versions.dagger}"
-    const val dagger_android_processor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
+    // Hilt
+    const val hilt_android = "com.google.dagger:hilt-android:${Versions.hilt}"
+    const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
+
+    val hilt_viewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    val hilt_compiler_androidx = "androidx.hilt:hilt-compiler:1.0.0-alpha03"
+    val hiltNavigation = "com.google.dagger:hilt-navigation:1.0.0-alpha03"
+    val hiltNavigationFragment = "androidx.hilt:hilt-navigation-fragment:1.0.0-alpha03"
+    val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
 
     // Retrofit
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"

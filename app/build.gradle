@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -46,12 +47,13 @@ android {
 }
 
 dependencies {
-    // Dagger
-    kapt Deps.dagger_android_processor
-    implementation Deps.dagger_android_support
-    implementation Deps.dagger_android
-    kapt Deps.dagger_compiler
-    implementation Deps.dagger
+
+    // Hilt
+    implementation Deps.hilt_android
+    kapt Deps.hilt_compiler
+    kapt Deps.hilt_compiler_androidx
+    implementation Deps.hilt_viewmodel
+    implementation Deps.hiltNavigationCompose
 
     // Kotlin
     implementation Deps.kotlin_stdlib

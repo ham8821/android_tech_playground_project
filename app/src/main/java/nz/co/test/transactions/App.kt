@@ -1,17 +1,14 @@
 package nz.co.test.transactions
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import nz.co.test.transactions.di.DaggerAppComponent
 import nz.co.test.transactions.infrastructure.TaskRoomDataBase
 import nz.co.test.transactions.infrastructure.repository.TaskLocalRepository
 
-class App : DaggerApplication() {
-    private val applicationInjector = DaggerAppComponent.builder().application(this).build()
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = applicationInjector
-
+@HiltAndroidApp
+class App : Application() {
     // No need to cancel this scope as it'll be torn down with the process
     val applicationScope = CoroutineScope(SupervisorJob())
 
@@ -19,4 +16,7 @@ class App : DaggerApplication() {
     // rather than when the application starts
     val database by lazy { TaskRoomDataBase.getDatabase(this, applicationScope) }
     val repository by lazy { TaskLocalRepository( database.taskDao()) }
+    override fun onCreate() {
+        super.onCreate()
+    }
 }

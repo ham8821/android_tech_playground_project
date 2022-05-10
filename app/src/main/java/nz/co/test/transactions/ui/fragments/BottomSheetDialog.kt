@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.android.support.AndroidSupportInjection
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.databinding.AddItemLayoutBinding
 import nz.co.test.transactions.infrastructure.model.Task
@@ -36,7 +35,6 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

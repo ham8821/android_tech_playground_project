@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.ViewModelFactory
 import kotlin.reflect.KClass
 
+@InstallIn(SingletonComponent::class)
 @Module
 abstract class ViewModelModule {
     @Binds

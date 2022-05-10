@@ -6,13 +6,13 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.android.support.DaggerFragment
 import nz.co.kiwibank.mobile.ui.utils.ui.NavigationResultsKey
 import nz.co.test.transactions.OnItemClickedListener
 import nz.co.test.transactions.R
@@ -27,8 +27,7 @@ import nz.co.test.transactions.ui.utils.Utility.makeToast
 import nz.co.test.transactions.ui.utils.getNavigationResult
 import javax.inject.Inject
 
-
-class TaskDashboardFragment : DaggerFragment(R.layout.fragment_task_list_dashboard),
+class TaskDashboardFragment : Fragment(R.layout.fragment_task_list_dashboard),
     OnItemClickedListener<Task> {
 
     private var _binding: FragmentTaskListDashboardBinding? = null

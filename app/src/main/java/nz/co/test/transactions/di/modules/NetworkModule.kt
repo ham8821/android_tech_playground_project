@@ -2,6 +2,8 @@ package nz.co.test.transactions.di.modules
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import nz.co.test.transactions.infrastructure.services.TaskService
 import nz.co.test.transactions.infrastructure.services.TransactionsService
 import okhttp3.Interceptor
@@ -11,6 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class NetworkModule {
     @Provides

@@ -1,20 +1,20 @@
 package nz.co.test.transactions.di.modules
 
 import android.app.Application
-import android.content.Context
-import javax.inject.Singleton
-
 import androidx.room.Room
 import com.example.android.roomwordssample.TransactionRoomDatabase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import nz.co.test.transactions.infrastructure.TaskRoomDataBase
 import nz.co.test.transactions.infrastructure.dao.TaskDao
 import nz.co.test.transactions.infrastructure.dao.TransactionDao
 import nz.co.test.transactions.infrastructure.repository.TaskLocalRepository
 import nz.co.test.transactions.infrastructure.repository.TransactionsLocalRepository
+import javax.inject.Singleton
 
-
+@InstallIn(SingletonComponent::class)
 @Module
 class RoomModule() {
     //    private val demoDatabase: TransactionRoomDatabase

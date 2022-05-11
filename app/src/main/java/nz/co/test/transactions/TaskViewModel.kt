@@ -37,7 +37,7 @@ class TaskViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-        val tasks: List<Task> = taskLocalRepository.allTask()
+            val tasks: List<Task> = taskLocalRepository.allTask()
             Log.d("RESPONSE!!!", tasks.toString())
             val taskList: ArrayList<TaskViewHolderState> = arrayListOf()
             tasks?.map {
@@ -60,14 +60,16 @@ class TaskViewModel @Inject constructor(
 
     fun getTask(userId: String) {
         viewModelScope.launch {
-           val task: Task? = taskLocalRepository.getTask(userId.toInt())
+            val task: Task? = taskLocalRepository.getTask(userId.toInt())
             Log.d("RESPONSE DETAIL", task.toString())
-            if(task != null){
-                val taskState = TaskViewHolderState(task.title, task.description, task.date, task.id.toString())
+            if (task != null) {
+                val taskState =
+                    TaskViewHolderState(task.title, task.description, task.date, task.id.toString())
                 _detailState.value = TaskDetailState.Loaded(taskState)
             }
         }
     }
+
     fun addTask(task: Task) {
         viewModelScope.launch {
             taskLocalRepository.addTask(task)

@@ -35,6 +35,7 @@ fun TaskListScreenView(navController: NavController, viewModel: TaskViewModel) {
             .fillMaxSize()
     )
 }
+
 @Composable
 fun TaskListView(state: TaskListViewState, navController: NavController, modifier: Modifier) {
     val defaultMargin = dimensionResource(
@@ -106,7 +107,9 @@ fun TaskListRecyclerView(
                 state = taskInfo,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { makeToast(context = context, "item Clicked!!") })
+                    .clickable {
+                        navController.navigate("taskDetail/" + taskInfo.taskIdentifier)
+                    })
             Divider(
                 color = Color.Gray,
                 thickness = dimensionResource(

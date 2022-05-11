@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.ui.compose.TaskDetailScreenView
 import nz.co.test.transactions.ui.compose.TaskListScreenView
 
 @AndroidEntryPoint
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
                 composable("taskList") {
                     val viewModel = hiltViewModel<TaskViewModel>()
                     TaskListScreenView(navController = navController, viewModel = viewModel)
+                }
+                composable("taskDetail/{userId}"){ backStackEntry ->
+                    val viewModel = hiltViewModel<TaskViewModel>()
+                    TaskDetailScreenView(navController, backStackEntry.arguments?.getString("userId"), viewModel)
                 }
             }
         }

@@ -14,6 +14,10 @@ class TaskLocalRepository @Inject constructor(private val taskDao: TaskDao){
       return taskDao.getTasks()
     }
 
+    suspend fun getTask(taskId: Int): Task? {
+        return taskDao.getTask(taskId)
+    }
+
     suspend fun addTask(task: Task){
         taskDao.insert(task)
     }

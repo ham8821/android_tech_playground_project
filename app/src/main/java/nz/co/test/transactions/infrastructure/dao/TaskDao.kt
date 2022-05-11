@@ -12,6 +12,9 @@ interface TaskDao {
     @Query("SELECT * FROM task_table ORDER BY date DESC")
     suspend fun getTasks(): List<Task>
 
+    @Query("SELECT * FROM task_table WHERE id = :taskId")
+    suspend fun getTask(taskId: Int): Task?
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(task: Task)
 

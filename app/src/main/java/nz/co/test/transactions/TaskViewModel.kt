@@ -1,7 +1,6 @@
 package nz.co.test.transactions
 
 import android.util.Log
-import android.util.Log.INFO
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.infrastructure.model.Task
@@ -10,12 +9,10 @@ import nz.co.test.transactions.infrastructure.repository.TaskRepository
 import nz.co.test.transactions.ui.states.TaskListViewState
 import nz.co.test.transactions.ui.utils.hasQuery
 import javax.inject.Inject
-import androidx.compose.runtime.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import nz.co.test.transactions.ui.states.TaskDetailState
 import nz.co.test.transactions.ui.states.TaskViewHolderState
-import java.util.logging.Logger
-import kotlin.random.Random
 
 @HiltViewModel
 class TaskViewModel @Inject constructor(
@@ -27,20 +24,18 @@ class TaskViewModel @Inject constructor(
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val showNoTransactonFoundView: MutableLiveData<Boolean> = MutableLiveData()
     val showListScreen: MutableLiveData<Boolean> = MutableLiveData()
-//    val allTasks: LiveData<List<Task>> = taskLocalRepository.allTask
-//        .onStart { isLoading.value = true }
-//        .asLiveData()
 
     private val _state: MutableStateFlow<TaskListViewState> = MutableStateFlow(
         TaskListViewState.Loading
     )
     val state: StateFlow<TaskListViewState> = _state
 
-    init {
-        addTask(Task(Random.nextInt(),"custom date", "custom title", "custom description"))
-        addTask(Task(Random.nextInt(),"custom date1", "custom title", "custom description"))
-        addTask(Task(Random.nextInt(),"custom date3", "custom title", "custom description"))
+    private val _detailState: MutableStateFlow<TaskDetailState> = MutableStateFlow(
+        TaskDetailState.Loading
+    )
+    val detailState: StateFlow<TaskDetailState> = _detailState
 
+    init {
         viewModelScope.launch {
         val tasks: List<Task> = taskLocalRepository.allTask()
             Log.d("RESPONSE!!!", tasks.toString())
@@ -63,6 +58,16 @@ class TaskViewModel @Inject constructor(
         }
     }
 
+    fun getTask(userId: String) {
+        viewModelScope.launch {
+           val task: Task? = taskLocalRepository.getTask(userId.toInt())
+            Log.d("RESPONSE DETAIL", task.toString())
+            if(task != null){
+                val taskState = TaskViewHolderState(task.title, task.description, task.date, task.id.toString())
+                _detailState.value = TaskDetailState.Loaded(taskState)
+            }
+        }
+    }
     fun addTask(task: Task) {
         viewModelScope.launch {
             taskLocalRepository.addTask(task)

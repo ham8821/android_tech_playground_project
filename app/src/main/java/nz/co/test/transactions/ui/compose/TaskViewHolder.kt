@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import nz.co.test.transactions.R
@@ -84,7 +85,7 @@ fun TaskTitleView(
         text = title,
         color = MaterialTheme.colors.onPrimary,
         modifier = modifier,
-        fontSize = fontDimensionResource(id = R.dimen.font_16)
+        fontSize = 16.sp
     )
 }
 
@@ -96,7 +97,7 @@ fun TaskDescriptionView(
     Text(
         text = description,
         color = MaterialTheme.colors.onSecondary,
-        fontSize = fontDimensionResource(id = R.dimen.font_12),
+        fontSize = 12.sp,
         modifier = modifier
 
     )
@@ -110,7 +111,7 @@ fun DateTextView(
     Text(
         text = date,
         color = MaterialTheme.colors.onSecondary,
-        fontSize = fontDimensionResource(id = R.dimen.font_12),
+        fontSize = 12.sp,
         modifier = modifier
     )
 }
@@ -123,7 +124,7 @@ fun TaskIdentifierTextView(
     Text(
         text = identifier,
         color = MaterialTheme.colors.onSecondary,
-        fontSize = fontDimensionResource(id = R.dimen.font_12),
+        fontSize = 12.sp,
         modifier = modifier
     )
 }

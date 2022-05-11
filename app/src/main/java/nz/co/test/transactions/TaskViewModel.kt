@@ -1,5 +1,7 @@
 package nz.co.test.transactions
 
+import android.util.Log
+import android.util.Log.INFO
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.infrastructure.model.Task
@@ -12,6 +14,8 @@ import androidx.compose.runtime.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import nz.co.test.transactions.ui.states.TaskViewHolderState
+import java.util.logging.Logger
+import kotlin.random.Random
 
 @HiltViewModel
 class TaskViewModel @Inject constructor(
@@ -33,28 +37,29 @@ class TaskViewModel @Inject constructor(
     val state: StateFlow<TaskListViewState> = _state
 
     init {
-        viewModelScope.launch {
-            taskLocalRepository.allTask.onStart {
-                _state.value = TaskListViewState.Loading
-            }.onEach { responseBody ->
-                val taskList: ArrayList<TaskViewHolderState> = arrayListOf()
-                responseBody?.map {
-                    taskList.add(
-                        TaskViewHolderState(
-                            it.title,
-                            it.description,
-                            it.date,
-                            it.id.toString()
-                        )
-                    )
-                }
-                if (taskList.isEmpty()) {
-                    _state.value = TaskListViewState.Error("Something went wrong. ")
-                } else {
-                    _state.value = TaskListViewState.Loaded(taskList)
-                }
-            }
+        addTask(Task(Random.nextInt(),"custom date", "custom title", "custom description"))
+        addTask(Task(Random.nextInt(),"custom date1", "custom title", "custom description"))
+        addTask(Task(Random.nextInt(),"custom date3", "custom title", "custom description"))
 
+        viewModelScope.launch {
+        val tasks: List<Task> = taskLocalRepository.allTask()
+            Log.d("RESPONSE!!!", tasks.toString())
+            val taskList: ArrayList<TaskViewHolderState> = arrayListOf()
+            tasks?.map {
+                taskList.add(
+                    TaskViewHolderState(
+                        it.title,
+                        it.description,
+                        it.date,
+                        it.id.toString()
+                    )
+                )
+            }
+            if (taskList.isEmpty()) {
+                _state.value = TaskListViewState.Error("Something went wrong. ")
+            } else {
+                _state.value = TaskListViewState.Loaded(taskList)
+            }
         }
     }
 

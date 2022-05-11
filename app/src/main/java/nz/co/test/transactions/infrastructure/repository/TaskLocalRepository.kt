@@ -1,5 +1,6 @@
 package nz.co.test.transactions.infrastructure.repository
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import nz.co.test.transactions.infrastructure.dao.TaskDao
 import nz.co.test.transactions.infrastructure.dao.TransactionDao
@@ -8,7 +9,10 @@ import nz.co.test.transactions.infrastructure.model.Transaction
 import javax.inject.Inject
 
 class TaskLocalRepository @Inject constructor(private val taskDao: TaskDao){
-    val allTask: Flow<List<Task>> = taskDao.getTasks()
+
+    suspend fun allTask(): List<Task>{
+      return taskDao.getTasks()
+    }
 
     suspend fun addTask(task: Task){
         taskDao.insert(task)

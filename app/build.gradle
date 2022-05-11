@@ -52,7 +52,6 @@ dependencies {
     implementation Deps.hilt_android
     kapt Deps.hilt_compiler
     kapt Deps.hilt_compiler_androidx
-    implementation Deps.hilt_viewmodel
     implementation Deps.hiltNavigationCompose
 
     // Kotlin
@@ -96,12 +95,13 @@ dependencies {
     implementation Deps.livedata
 
     // Compose
-    implementation Deps.compose_foundataion
+    implementation Deps.compose_foundation
+    implementation Deps.compose_foundation_layout
     implementation Deps.compose_material
     implementation Deps.compose_tooling
     implementation Deps.compose_compiler
+    implementation Deps.compose_runtime
     implementation Deps.compose_constraintlayout
-    implementation Deps.compose_coil
 
     // Navigation
     implementation Deps.navigation_fragment

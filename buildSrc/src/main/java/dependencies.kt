@@ -10,7 +10,7 @@ object Versions{
     const val targetSdk = 31
     const val compileSdk = 31
 
-    const val kotlin = "1.6.0"
+    const val kotlin = "1.6.21"
     const val retrofit = "2.9.0"
     const val logger = "3.12.0"
     const val fragment = "1.3.6"
@@ -27,10 +27,10 @@ object Versions{
     const val mockito_core = "4.3.1"
     const val test = "1.4.0"
     const val compose = "1.1.0-beta04"
-    const val compose_compiler = "1.0.0-beta08"
-    const val compose_constraintlayout = "1.0.0-beta02"
+    const val compose_compiler = "1.1.0"
+    const val compose_constraintlayout = "1.0.0"
     const val coil = "1.4.0"
-    const val hilt = "2.39.1"
+    const val hilt = "2.41"
 }
 
 object Deps {
@@ -41,11 +41,26 @@ object Deps {
     const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
 
-    val hilt_viewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-    val hilt_compiler_androidx = "androidx.hilt:hilt-compiler:1.0.0-alpha03"
-    val hiltNavigation = "com.google.dagger:hilt-navigation:1.0.0-alpha03"
-    val hiltNavigationFragment = "androidx.hilt:hilt-navigation-fragment:1.0.0-alpha03"
-    val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
+    val hilt_compiler_androidx = "androidx.hilt:hilt-compiler:1.0.0"
+    val hiltNavigation = "com.google.dagger:hilt-navigation:1.0.0"
+    val hiltNavigationFragment = "androidx.hilt:hilt-navigation-fragment:1.0.0"
+    val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    // Compose
+    const val compose_foundation = "androidx.compose.foundation:foundation:$compose"
+    const val compose_foundation_layout = "androidx.compose.foundation:foundation-layout:$compose"
+    const val compose_material = "androidx.compose.material:material:$compose"
+    const val compose_tooling = "androidx.compose.ui:ui-tooling:$compose"
+    const val compose_compiler = "androidx.compose.compiler:compiler:${Versions.compose_compiler}"
+    const val compose_runtime = "androidx.compose.runtime:runtime:$compose"
+    const val compose_coil = "io.coil-kt:coil-compose:$coil"
+
+    val compose_constraintlayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.compose_constraintlayout}"
+
+    // Navigation
+    const val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:$navigation"
+    const val navigation_ui = "androidx.navigation:navigation-ui-ktx:$navigation"
+    const val navigation_compose = "androidx.navigation:navigation-compose:$navigation"
 
     // Retrofit
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
@@ -70,19 +85,6 @@ object Deps {
     const val runtime = "androidx.lifecycle:lifecycle-runtime:$lifecycle"
     const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
 
-    // Navigation
-    const val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:$navigation"
-    const val navigation_ui = "androidx.navigation:navigation-ui-ktx:$navigation"
-    const val navigation_compose = "androidx.navigation:navigation-compose:$navigation"
-
-    // Compose
-    const val compose_foundataion = "androidx.compose.foundation:foundation:$compose"
-    const val compose_material = "androidx.compose.material:material:$compose"
-    const val compose_tooling = "androidx.compose.ui:ui-tooling:$compose"
-    const val compose_compiler = "androidx.compose.compiler:compiler:${Versions.compose_compiler}"
-    const val compose_coil = "io.coil-kt:coil-compose:$coil"
-
-    val compose_constraintlayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.compose_constraintlayout}"
     // Room
     const val room = "androidx.room:room-ktx:${Versions.room}"
     const val compiler = "androidx.room:room-compiler:${Versions.room}"

@@ -66,8 +66,33 @@ fun TaskListView(state: TaskListViewState, navController: NavController, modifie
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
-    BottomSheetScaffold(scaffoldState = bottomSheetScaffoldState,
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
+            Column(
+                Modifier
+                    .padding(16.dp)
+                    .wrapContentHeight()
+                    .background(Color(0xAA3fa7cc)),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Top
+            ) {
+                IconButton(onClick = {
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                }, modifier = Modifier.height(20.dp).background(Color(0xAA3fa7cc))) {
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = "close bottomsheet",
+                        tint = Color.Blue
+                    )
+                }
+            }
             Column(
                 content = {
                     Spacer(modifier = Modifier.padding(16.dp))
@@ -89,6 +114,15 @@ fun TaskListView(state: TaskListViewState, navController: NavController, modifie
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 24.dp)
+                                    .clickable {
+                                        coroutineScope.launch {
+                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                bottomSheetScaffoldState.bottomSheetState.expand()
+                                            } else {
+                                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                                            }
+                                        }
+                                    }
                             ) {
                                 Spacer(modifier = Modifier.padding(8.dp))
                                 Icon(
@@ -110,7 +144,7 @@ fun TaskListView(state: TaskListViewState, navController: NavController, modifie
             )
         },
         sheetPeekHeight = 0.dp,
-        topBar = {}){
+        topBar = {}) {
         Scaffold(
             floatingActionButton = {
                 AddFloatingButton(coroutineScope, bottomSheetScaffoldState, navController, modifier)

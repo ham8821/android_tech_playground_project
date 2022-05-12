@@ -14,8 +14,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import nz.co.test.transactions.R
-import nz.co.test.transactions.ui.fontDimensionResource
-import nz.co.test.transactions.ui.playgroundTheme
+import nz.co.test.transactions.ui.AppTheme
 import nz.co.test.transactions.ui.states.TaskViewHolderState
 
 @Composable
@@ -23,19 +22,18 @@ fun TaskViewHolder(
     state: TaskViewHolderState,
     modifier: Modifier
 ) {
-    val standardMargin = dimensionResource(
-        id = R.dimen.default_margin
-    )
-    ConstraintLayout(modifier = Modifier
-        .fillMaxWidth().padding(standardMargin)) {
+    ConstraintLayout(modifier = modifier) {
         val (
-            taskNameView, taskDescriptionView, dateView
+            taskNameView, taskDescriptionView, dateView, taskIDView
         ) = createRefs()
+        val standardMargin = dimensionResource(
+            id = R.dimen.default_margin
+        )
         TaskTitleView(state.taskName, modifier = Modifier.constrainAs(taskNameView) {
-            width = Dimension.fillToConstraints
+            width = Dimension.wrapContent
             start.linkTo(
-                margin = standardMargin,
-                anchor = parent.start
+                anchor = parent.start,
+                margin = standardMargin
             )
             top.linkTo(parent.top)
             end.linkTo(dateView.start)
@@ -46,16 +44,32 @@ fun TaskViewHolder(
             modifier = Modifier.constrainAs(taskDescriptionView) {
                 width = Dimension.wrapContent
                 start.linkTo(
-                    margin = standardMargin,
-                    anchor = parent.start
+                    anchor = parent.start,
+                    margin = standardMargin
                 )
                 top.linkTo(taskNameView.bottom)
+                end.linkTo(taskIDView.start)
                 bottom.linkTo(parent.bottom)
             })
         DateTextView(state.date, modifier = Modifier.constrainAs(dateView) {
             width = Dimension.wrapContent
+            start.linkTo(
+                anchor = taskNameView.end,
+                margin = standardMargin
+            )
             top.linkTo(parent.top)
-            end.linkTo(margin = standardMargin, anchor = parent.end)
+            end.linkTo(parent.end)
+            bottom.linkTo(taskIDView.top)
+        })
+        TaskIdentifierTextView(state.taskIdentifier, modifier = Modifier.constrainAs(taskIDView) {
+            width = Dimension.wrapContent
+            start.linkTo(
+                anchor = dateView.start,
+                margin = standardMargin
+            )
+            top.linkTo(dateView.bottom)
+            end.linkTo(parent.end)
+            bottom.linkTo(parent.bottom)
         })
     }
 
@@ -68,9 +82,9 @@ fun TaskTitleView(
 ) {
     Text(
         text = title,
-        color = MaterialTheme.colors.onSecondary,
+        color = MaterialTheme.colors.onPrimary,
         modifier = modifier,
-        fontSize = 12.sp
+        fontSize = 16.sp
     )
 }
 
@@ -121,7 +135,7 @@ fun TaskIdentifierTextView(
 )
 @Composable
 fun ArticleViewHolderPreview() {
-    playgroundTheme {
+    AppTheme {
         TaskViewHolder(
             state = TaskViewHolderState(
                 taskName = "Task Title",

@@ -7,6 +7,7 @@
         <entry key="../../../../layout/compose-model-1652238480142.xml" value="0.1" />
         <entry key="../../../../layout/compose-model-1652243979198.xml" value="0.25277777777777777" />
         <entry key="../../../../layout/compose-model-1652326780319.xml" value="0.3314814814814815" />
+        <entry key="../../../../layout/compose-model-1652346688909.xml" value="0.24444444444444444" />
         <entry key="../../../layout/custom_preview.xml" value="0.35435897435897434" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.2578125" />
         <entry key="app/src/main/res/drawable/ic_chevron.xml" value="0.19635416666666666" />
@@ -14,6 +15,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/layout/add_item_layout.xml" value="0.23177083333333334" />
         <entry key="app/src/main/res/layout/fragment_task.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/fragment_task_list_dashboard.xml" value="0.24791666666666667" />
         <entry key="app/src/main/res/layout/fragment_transaction_detail.xml" value="0.190625" />
         <entry key="app/src/main/res/layout/fragment_transacton_list.xml" value="0.33177083333333335" />
         <entry key="app/src/main/res/layout/list_item_task.xml" value="0.32447916666666665" />

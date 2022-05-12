@@ -1,6 +1,7 @@
 package nz.co.test.transactions
 
 import android.app.Application
+import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -16,7 +17,15 @@ class App : Application() {
     // rather than when the application starts
     val database by lazy { TaskRoomDataBase.getDatabase(this, applicationScope) }
     val repository by lazy { TaskLocalRepository( database.taskDao()) }
+
+    //Todo: could be implemented with SharedPreference
+    val isDark = mutableStateOf(false)
+
     override fun onCreate() {
         super.onCreate()
+    }
+
+    fun toggleLightTheme(){
+        isDark.value = !isDark.value
     }
 }

@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,9 +25,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import nz.co.test.transactions.App
 import nz.co.test.transactions.R
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
@@ -42,15 +41,18 @@ import kotlin.random.Random
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun TaskListScreenView(navController: NavController, viewModel: TaskViewModel) {
+fun TaskListScreenView(navController: NavController, application: App, viewModel: TaskViewModel) {
     val state by viewModel.state.collectAsState()
-    AppTheme(useDarkTheme = true) {
+    AppTheme(useDarkTheme = application.isDark.value) {
         TaskListView(
             viewModel,
             state = state,
             navController,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            onToggleTheme = {
+                application.toggleLightTheme()
+            }
         )
     }
 }
@@ -62,7 +64,8 @@ fun TaskListView(
     viewModel: TaskViewModel,
     state: TaskListViewState,
     navController: NavController,
-    modifier: Modifier
+    modifier: Modifier,
+    onToggleTheme: () -> Unit
 ) {
     val defaultMargin = dimensionResource(
         id = R.dimen.default_margin
@@ -199,9 +202,8 @@ fun TaskListView(
                         }) {
                             Icon(Icons.Filled.Search, contentDescription = "")
                         }
-                        IconButton(onClick = {
-                        }) {
-                            Icon(Icons.Filled.Edit, contentDescription = "")
+                        IconButton(onClick = onToggleTheme) {
+                            Icon(Icons.Filled.MoreVert, contentDescription = "")
                         }
                     },
                     elevation = AppBarDefaults.TopAppBarElevation
@@ -214,7 +216,7 @@ fun TaskListView(
             floatingActionButtonPosition = FabPosition.Center,
 
             bottomBar = {
-                val selectedItem = remember { mutableStateOf("upload")}
+                val selectedItem = remember { mutableStateOf("delete")}
                 BottomAppBar(
                     cutoutShape = RoundedCornerShape(50),
                     content = {
@@ -235,10 +237,10 @@ fun TaskListView(
                                 icon = {
                                     Icon(Icons.Filled.Delete ,  "")
                                 },
-                                label = { Text(text = "Upload")},
-                                selected = selectedItem.value == "upload",
+                                label = { Text(text = "Delete")},
+                                selected = selectedItem.value == "delete",
                                 onClick = {
-                                    selectedItem.value = "upload"
+                                    selectedItem.value = "delete"
                                 },
                                 alwaysShowLabel = false
                             )
@@ -392,7 +394,9 @@ fun TaskListPreview() {
                     all = dimensionResource(
                         id = R.dimen.default_margin
                     )
-                )
+                ),
+            onToggleTheme = {
+            }
         )
     }
 }

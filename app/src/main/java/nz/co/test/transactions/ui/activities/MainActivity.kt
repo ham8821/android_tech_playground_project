@@ -10,13 +10,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import nz.co.test.transactions.App
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.ui.compose.TaskDetailScreenView
 import nz.co.test.transactions.ui.compose.TaskListScreenView
+import javax.inject.Inject
 
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var application: App
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             NavHost(navController, startDestination = "taskList") {
                 composable("taskList") {
                     val viewModel = hiltViewModel<TaskViewModel>()
-                    TaskListScreenView(navController = navController, viewModel = viewModel)
+                    TaskListScreenView(navController = navController, application=  application, viewModel = viewModel)
                 }
                 composable("taskDetail/{userId}"){ backStackEntry ->
                     val viewModel = hiltViewModel<TaskViewModel>()

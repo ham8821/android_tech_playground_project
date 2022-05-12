@@ -1,31 +1,59 @@
 package nz.co.test.transactions.ui.compose
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.states.TaskViewHolderState
 
 @Composable
 fun TaskViewHolder(
     navController: NavController,
     state: TaskViewHolderState,
+    viewModel: TaskViewModel,
     modifier: Modifier
 ) {
-    Column(modifier = Modifier
-        .clickable {
-            navController.navigate("taskDetail/" + state.taskIdentifier)
-        }
-        .padding(12.dp)) {
-        TaskTitleView(title = state.taskName, modifier = modifier)
-        TaskDescriptionView(description = state.taskDescription, modifier = modifier)
-    }
 
+    Box(modifier = Modifier.fillMaxWidth()) {
+
+        Column(modifier = Modifier.clickable {
+            navController.navigate("taskDetail/" + state.taskIdentifier)
+        }) {
+            TaskTitleView(title = state.taskName, modifier = modifier)
+            TaskDescriptionView(description = state.taskDescription, modifier = modifier)
+        }
+
+        IconButton(onClick = {
+            viewModel.removeTask(
+                Task(
+                    state.taskIdentifier.toInt(),
+                    state.date,
+                    state.taskName,
+                    state.taskDescription
+                )
+            )
+            navController.navigate("taskList")
+        }, modifier = Modifier.align(Alignment.TopEnd)) {
+            Icon(
+                Icons.Filled.Delete,
+                contentDescription = "close bottomsheet",
+                tint = MaterialTheme.colors.onBackground
+            )
+        }
+    }
 }
 
 @Composable
@@ -53,37 +81,13 @@ fun TaskDescriptionView(
     )
 }
 
-@Composable
-fun DateTextView(
-    date: String,
-    modifier: Modifier
-) {
-    Text(
-        text = date,
-        fontSize = 12.sp,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun TaskIdentifierTextView(
-    identifier: String,
-    modifier: Modifier
-) {
-    Text(
-        text = identifier,
-        fontSize = 12.sp,
-        modifier = modifier
-    )
-}
-//
 //@Preview
 //@Preview(
 //    uiMode = Configuration.UI_MODE_NIGHT_YES,
 //    showBackground = true
 //)
 //@Composable
-//fun ArticleViewHolderPreview() {
+//private fun ArticleViewHolderPreview() {
 //    AppTheme {
 //        TaskViewHolder(
 //            navController = NavController(this),

@@ -240,6 +240,9 @@ fun TaskListView(
                                 label = { Text(text = "Delete")},
                                 selected = selectedItem.value == "delete",
                                 onClick = {
+                                    // This really needs to be Flow.
+                                    viewModel.removeAllTasks()
+                                    navController.navigate("taskList")
                                     selectedItem.value = "delete"
                                 },
                                 alwaysShowLabel = false
@@ -271,6 +274,7 @@ fun TaskListView(
                     is TaskListViewState.Loaded -> TaskListRecyclerView(
                         data = state.data,
                         navController = navController,
+                        viewModel = viewModel,
                         modifier = Modifier.constrainAs(LoadedView) {
                             start.linkTo(
                                 parent.start,
@@ -310,6 +314,7 @@ fun TaskErrorView(data: String, navController: NavController, modifier: Modifier
 fun TaskListRecyclerView(
     data: List<TaskViewHolderState>,
     navController: NavController,
+    viewModel: TaskViewModel,
     modifier: Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -317,6 +322,7 @@ fun TaskListRecyclerView(
             TaskViewHolder(
                 navController = navController,
                 state = taskInfo,
+                viewModel = viewModel,
                 modifier = Modifier
                     .fillMaxWidth()
             )

@@ -3,19 +3,19 @@ package nz.co.test.transactions.ui.compose
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +26,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.R
@@ -43,13 +44,15 @@ import kotlin.random.Random
 @Composable
 fun TaskListScreenView(navController: NavController, viewModel: TaskViewModel) {
     val state by viewModel.state.collectAsState()
-    TaskListView(
-        viewModel,
-        state = state,
-        navController,
-        modifier = Modifier
-            .fillMaxSize()
-    )
+    AppTheme(useDarkTheme = true) {
+        TaskListView(
+            viewModel,
+            state = state,
+            navController,
+            modifier = Modifier
+                .fillMaxSize()
+        )
+    }
 }
 
 @ExperimentalFoundationApi
@@ -186,9 +189,65 @@ fun TaskListView(
         sheetPeekHeight = 0.dp,
         topBar = {}) {
         Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(text = "To-Do Manager")
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                        }) {
+                            Icon(Icons.Filled.Search, contentDescription = "")
+                        }
+                        IconButton(onClick = {
+                        }) {
+                            Icon(Icons.Filled.Edit, contentDescription = "")
+                        }
+                    },
+                    elevation = AppBarDefaults.TopAppBarElevation
+                )
+            },
             floatingActionButton = {
                 AddFloatingButton(coroutineScope, bottomSheetScaffoldState, navController, modifier)
+            },
+            isFloatingActionButtonDocked = true,
+            floatingActionButtonPosition = FabPosition.Center,
+
+            bottomBar = {
+                val selectedItem = remember { mutableStateOf("upload")}
+                BottomAppBar(
+                    cutoutShape = RoundedCornerShape(50),
+                    content = {
+                        BottomNavigation() {
+                            BottomNavigationItem(
+                                icon = {
+                                    Icon(Icons.Filled.Favorite , "")
+                                },
+                                label = { Text(text = "Favorite")},
+                                selected = selectedItem.value == "favorite",
+                                onClick = {
+                                    selectedItem.value = "favorite"
+                                },
+                                alwaysShowLabel = false
+                            )
+
+                            BottomNavigationItem(
+                                icon = {
+                                    Icon(Icons.Filled.Delete ,  "")
+                                },
+                                label = { Text(text = "Upload")},
+                                selected = selectedItem.value == "upload",
+                                onClick = {
+                                    selectedItem.value = "upload"
+                                },
+                                alwaysShowLabel = false
+                            )
+                        }
+                    }
+                )
             }
+
+
         ) {
             ConstraintLayout(modifier = modifier) {
                 val (
@@ -257,9 +316,10 @@ fun TaskListRecyclerView(
                 navController = navController,
                 state = taskInfo,
                 modifier = Modifier
-                    .fillMaxWidth())
+                    .fillMaxWidth()
+            )
             Divider(
-                color = Color.Gray,
+                color = MaterialTheme.colors.secondaryVariant,
                 thickness = dimensionResource(
                     id = R.dimen.divider_size
                 ),
@@ -284,10 +344,9 @@ fun AddFloatingButton(
     navController: NavController,
     modifier: Modifier
 ) {
-
-    ExtendedFloatingActionButton(
-        icon = { Icon(Icons.Filled.Add, "") },
-        text = { Text("New") },
+    FloatingActionButton(
+        shape = RoundedCornerShape(50),
+        backgroundColor = MaterialTheme.colors.primary,
         onClick = {
             coroutineScope.launch {
                 if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
@@ -298,7 +357,9 @@ fun AddFloatingButton(
             }
         },
         elevation = FloatingActionButtonDefaults.elevation(8.dp)
-    )
+    ) {
+        Icon(Icons.Filled.Add, "", tint = MaterialTheme.colors.onPrimary)
+    }
 }
 
 @ExperimentalFoundationApi

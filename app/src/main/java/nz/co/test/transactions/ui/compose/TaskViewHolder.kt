@@ -23,18 +23,19 @@ fun TaskViewHolder(
     state: TaskViewHolderState,
     modifier: Modifier
 ) {
-    ConstraintLayout(modifier = modifier) {
+    val standardMargin = dimensionResource(
+        id = R.dimen.default_margin
+    )
+    ConstraintLayout(modifier = Modifier
+        .fillMaxWidth().padding(standardMargin)) {
         val (
-            taskNameView, taskDescriptionView, dateView, taskIDView
+            taskNameView, taskDescriptionView, dateView
         ) = createRefs()
-        val standardMargin = dimensionResource(
-            id = R.dimen.default_margin
-        )
         TaskTitleView(state.taskName, modifier = Modifier.constrainAs(taskNameView) {
-            width = Dimension.wrapContent
+            width = Dimension.fillToConstraints
             start.linkTo(
-                anchor = parent.start,
-                margin = standardMargin
+                margin = standardMargin,
+                anchor = parent.start
             )
             top.linkTo(parent.top)
             end.linkTo(dateView.start)
@@ -45,32 +46,16 @@ fun TaskViewHolder(
             modifier = Modifier.constrainAs(taskDescriptionView) {
                 width = Dimension.wrapContent
                 start.linkTo(
-                    anchor = parent.start,
-                    margin = standardMargin
+                    margin = standardMargin,
+                    anchor = parent.start
                 )
                 top.linkTo(taskNameView.bottom)
-                end.linkTo(taskIDView.start)
                 bottom.linkTo(parent.bottom)
             })
         DateTextView(state.date, modifier = Modifier.constrainAs(dateView) {
             width = Dimension.wrapContent
-            start.linkTo(
-                anchor = taskNameView.end,
-                margin = standardMargin
-            )
             top.linkTo(parent.top)
-            end.linkTo(parent.end)
-            bottom.linkTo(taskIDView.top)
-        })
-        TaskIdentifierTextView(state.taskIdentifier, modifier = Modifier.constrainAs(taskIDView) {
-            width = Dimension.wrapContent
-            start.linkTo(
-                anchor = dateView.start,
-                margin = standardMargin
-            )
-            top.linkTo(dateView.bottom)
-            end.linkTo(parent.end)
-            bottom.linkTo(parent.bottom)
+            end.linkTo(margin = standardMargin, anchor = parent.end)
         })
     }
 
@@ -83,9 +68,9 @@ fun TaskTitleView(
 ) {
     Text(
         text = title,
-        color = MaterialTheme.colors.onPrimary,
+        color = MaterialTheme.colors.onSecondary,
         modifier = modifier,
-        fontSize = 16.sp
+        fontSize = 12.sp
     )
 }
 

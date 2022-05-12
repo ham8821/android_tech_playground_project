@@ -1,12 +1,14 @@
 package nz.co.test.transactions.ui.compose
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -251,15 +253,19 @@ fun TaskListRecyclerView(
     navController: NavController,
     modifier: Modifier
 ) {
+    val context = LocalContext.current
     LazyColumn(modifier = modifier) {
         items(data) { taskInfo ->
             TaskViewHolder(
                 state = taskInfo,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .clickable {
+                        makeToast(context, "clicked")
+                        Log.d("IS this triggering","yes")
                         navController.navigate("taskDetail/" + taskInfo.taskIdentifier)
-                    })
+                    }
+                    .fillMaxWidth()
+            )
             Divider(
                 color = Color.Gray,
                 thickness = dimensionResource(
@@ -303,37 +309,45 @@ fun AddFloatingButton(
     )
 }
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@Preview
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true
-)
-@Composable
-fun TaskListPreview() {
-    val list: ArrayList<TaskViewHolderState> = ArrayList()
-    list.add(
-        TaskViewHolderState(
-            taskName = "Task Title",
-            taskDescription = "Task Description",
-            date = "Task Date",
-            taskIdentifier = "Identifier"
-        )
-    )
-    playgroundTheme {
-        TaskListView(
-            viewModel(),
-            state = TaskListViewState.Loaded(list),
-            navController = NavController(LocalContext.current),
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(
-                    all = dimensionResource(
-                        id = R.dimen.default_margin
-                    )
-                )
-        )
-    }
-}
+//@ExperimentalFoundationApi
+//@ExperimentalMaterialApi
+//@Preview
+//@Preview(
+//    uiMode = Configuration.UI_MODE_NIGHT_YES,
+//    showBackground = true
+//)
+//@Composable
+//fun TaskListPreview() {
+//    val list: ArrayList<TaskViewHolderState> = ArrayList()
+//    list.add(
+//        TaskViewHolderState(
+//            taskName = "Task Title",
+//            taskDescription = "Task Description",
+//            date = "Task Date",
+//            taskIdentifier = "Identifier"
+//        )
+//    )
+//    list.add(
+//        TaskViewHolderState(
+//            taskName = "Task Title",
+//            taskDescription = "Task Description",
+//            date = "Task Date",
+//            taskIdentifier = "Identifier"
+//        )
+//    )
+//    list.add(
+//        TaskViewHolderState(
+//            taskName = "Task Title",
+//            taskDescription = "Task Description",
+//            date = "Task Date",
+//            taskIdentifier = "Identifier"
+//        )
+//    )
+//    playgroundTheme {
+//        TaskListRecyclerView(
+//            data = list,
+//            navController = NavController(LocalContext.current),
+//            modifier = Modifier
+//        )
+//    }
+//}

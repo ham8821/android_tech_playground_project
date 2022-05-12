@@ -22,7 +22,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginEnd="16dp"
             android:layout_toStartOf="@+id/task_date"
-            android:textColor="@color/black"
+            android:textColor="@color/black2"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="{NAME}" />
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/transaction_summary"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/black"
+            android:textColor="@color/black2"
             tools:text="{Date}" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/task_description"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/black"
+            android:textColor="@color/black2"
             tools:text="{id}" />
 
 

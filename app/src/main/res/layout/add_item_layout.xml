@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_task"
-        android:background="@color/primaryColor"
+        android:background="@color/white"
         android:textColor="@color/white"
         android:gravity="start"
         android:padding="@dimen/font_16"
@@ -55,7 +55,7 @@
     <Button
         android:layout_margin="10dp"
         android:id="@+id/add_button"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/black2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add" />

@@ -1,38 +1,42 @@
 package nz.co.test.transactions.ui.compose
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavController
-import nz.co.test.transactions.R
-import nz.co.test.transactions.TaskViewModel
-import nz.co.test.transactions.ui.states.TaskListViewState
-import nz.co.test.transactions.ui.states.TaskViewHolderState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import nz.co.test.transactions.R
+import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.infrastructure.model.Task
+import nz.co.test.transactions.ui.playgroundTheme
+import nz.co.test.transactions.ui.states.TaskListViewState
+import nz.co.test.transactions.ui.states.TaskViewHolderState
+import nz.co.test.transactions.ui.utils.Utility.getFormattedCurrentDate
+import nz.co.test.transactions.ui.utils.Utility.makeToast
+import kotlin.random.Random
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -40,6 +44,7 @@ import kotlinx.coroutines.launch
 fun TaskListScreenView(navController: NavController, viewModel: TaskViewModel) {
     val state by viewModel.state.collectAsState()
     TaskListView(
+        viewModel,
         state = state,
         navController,
         modifier = Modifier
@@ -50,16 +55,14 @@ fun TaskListScreenView(navController: NavController, viewModel: TaskViewModel) {
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun TaskListView(state: TaskListViewState, navController: NavController, modifier: Modifier) {
+fun TaskListView(
+    viewModel: TaskViewModel,
+    state: TaskListViewState,
+    navController: NavController,
+    modifier: Modifier
+) {
     val defaultMargin = dimensionResource(
         id = R.dimen.default_margin
-    )
-    val bottomSheetItems = listOf(
-        BottomSheetItem(title = "Folder", icon = Icons.Default.Favorite),
-        BottomSheetItem(title = "Upload", icon = Icons.Default.ThumbUp),
-        BottomSheetItem(title = "Scan", icon = Icons.Default.Info),
-        BottomSheetItem(title = "Google Docs", icon = Icons.Default.List),
-        BottomSheetItem(title = "Google Sheets", icon = Icons.Default.Person)
     )
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -67,35 +70,40 @@ fun TaskListView(state: TaskListViewState, navController: NavController, modifie
     )
     val coroutineScope = rememberCoroutineScope()
     BottomSheetScaffold(
+        modifier = modifier,
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
             Column(
-                Modifier
-                    .padding(16.dp)
+                modifier = Modifier
                     .wrapContentHeight()
-                    .background(Color(0xAA3fa7cc)),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top
-            ) {
-                IconButton(onClick = {
-                    coroutineScope.launch {
-                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                            bottomSheetScaffoldState.bottomSheetState.expand()
-                        } else {
-                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                        }
+                    .fillMaxWidth()
+                    .background(Color(0xAA3fa7cc))
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Top,
+                content = {
+                    IconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                    bottomSheetScaffoldState.bottomSheetState.expand()
+                                } else {
+                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                }
+                            }
+                        }, modifier = Modifier
+                            .height(20.dp)
+                    ) {
+                        Icon(
+                            Icons.Filled.Close,
+                            contentDescription = "close bottomsheet",
+                            tint = Color.White
+                        )
                     }
-                }, modifier = Modifier.height(20.dp).background(Color(0xAA3fa7cc))) {
-                    Icon(
-                        Icons.Filled.Close,
-                        contentDescription = "close bottomsheet",
-                        tint = Color.Blue
-                    )
                 }
-            }
+            )
             Column(
                 content = {
-                    Spacer(modifier = Modifier.padding(16.dp))
                     Text(
                         text = "Create New",
                         modifier = Modifier
@@ -105,37 +113,65 @@ fun TaskListView(state: TaskListViewState, navController: NavController, modifie
                         fontSize = 21.sp,
                         color = Color.White
                     )
-                    LazyVerticalGrid(
-                        cells = GridCells.Fixed(3)
-                    ) {
-                        items(bottomSheetItems.size, itemContent = {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 24.dp)
-                                    .clickable {
-                                        coroutineScope.launch {
-                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                bottomSheetScaffoldState.bottomSheetState.expand()
-                                            } else {
-                                                bottomSheetScaffoldState.bottomSheetState.collapse()
-                                            }
-                                        }
-                                    }
-                            ) {
-                                Spacer(modifier = Modifier.padding(8.dp))
-                                Icon(
-                                    bottomSheetItems[it].icon,
-                                    "",
-                                    tint = Color.White
-                                )
-                                Spacer(modifier = Modifier.padding(8.dp))
-                                Text(text = bottomSheetItems[it].title, color = Color.White)
-                            }
+                    Spacer(modifier = Modifier.padding(16.dp))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        content = {
+                            val taskName = remember { mutableStateOf("") }
+                            val taskDescription = remember { mutableStateOf("") }
 
-                        })
-                    }
+                            // Creating two outlined text fields for
+                            // fetching username and password from the user
+                            OutlinedTextField(
+                                value = taskName.value,
+                                onValueChange = { taskName.value = it },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    backgroundColor = MaterialTheme.colors.surface.copy(alpha = 0.3f)
+                                ),
+                                label = { Text(text = "Name") },
+                                maxLines = 1,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            OutlinedTextField(
+                                value = taskDescription.value,
+                                onValueChange = { taskDescription.value = it },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    backgroundColor = MaterialTheme.colors.surface.copy(alpha = 0.3f)
+                                ),
+                                label = { Text(text = "Description") },
+                                maxLines = 5,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            Spacer(modifier = Modifier.padding(16.dp))
+                            val context = LocalContext.current
+                            Button(
+                                onClick = {
+                                    if (taskName.value.isEmpty() || taskDescription.value.isEmpty()) {
+                                        makeToast(context, "fields can't be empty.")
+                                    } else {
+                                        val id = viewModel.addTask(
+                                            Task(
+                                                title = taskName.toString(),
+                                                description = taskDescription.toString(),
+                                                date = getFormattedCurrentDate(),
+                                                id = Random.nextInt()
+                                            )
+                                        )
+                                        makeToast(context, id.toString())
+                                        navController.navigate("taskList")
+                                    }
+                                },
+                                Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .wrapContentWidth()
+                                    .wrapContentHeight(),
+                            ) {
+                                Text("Add")
+                            }
+                        }
+                    )
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp)
@@ -249,7 +285,7 @@ fun AddFloatingButton(
 
     ExtendedFloatingActionButton(
         icon = { Icon(Icons.Filled.Add, "") },
-        text = { Text("New Task") },
+        text = { Text("New") },
         onClick = {
             coroutineScope.launch {
                 if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
@@ -263,4 +299,37 @@ fun AddFloatingButton(
     )
 }
 
-data class BottomSheetItem(val title: String, val icon: ImageVector)
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun TaskListPreview() {
+    val list: ArrayList<TaskViewHolderState> = ArrayList()
+    list.add(
+        TaskViewHolderState(
+            taskName = "Task Title",
+            taskDescription = "Task Description",
+            date = "Task Date",
+            taskIdentifier = "Identifier"
+        )
+    )
+    playgroundTheme {
+        TaskListView(
+            viewModel(),
+            state = TaskListViewState.Loaded(list),
+            navController = NavController(LocalContext.current),
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(
+                    all = dimensionResource(
+                        id = R.dimen.default_margin
+                    )
+                )
+        )
+    }
+}

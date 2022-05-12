@@ -151,15 +151,19 @@ fun TaskListView(
                                     if (taskName.value.isEmpty() || taskDescription.value.isEmpty()) {
                                         makeToast(context, "fields can't be empty.")
                                     } else {
-                                        val id = viewModel.addTask(
+                                        viewModel.addTask(
                                             Task(
-                                                title = taskName.toString(),
-                                                description = taskDescription.toString(),
+                                                title = taskName.value,
+                                                description = taskDescription.value,
                                                 date = getFormattedCurrentDate(),
                                                 id = Random.nextInt()
                                             )
                                         )
-                                        makeToast(context, id.toString())
+                                        taskName.value = ""
+                                        taskDescription.value = ""
+                                        coroutineScope.launch {
+                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                        }
                                         navController.navigate("taskList")
                                     }
                                 },

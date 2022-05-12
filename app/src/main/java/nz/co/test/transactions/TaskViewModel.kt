@@ -72,7 +72,11 @@ class TaskViewModel @Inject constructor(
 
     fun addTask(task: Task) {
         viewModelScope.launch {
-            taskLocalRepository.addTask(task)
+            try {
+                taskLocalRepository.addTask(task)
+            } catch (e: Throwable) {
+                println("DAO DEBUG LOG$e.message")
+            }
         }
     }
 

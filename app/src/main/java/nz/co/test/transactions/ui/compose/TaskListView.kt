@@ -254,12 +254,10 @@ fun TaskListRecyclerView(
     LazyColumn(modifier = modifier) {
         items(data) { taskInfo ->
             TaskViewHolder(
+                navController = navController,
                 state = taskInfo,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        navController.navigate("taskDetail/" + taskInfo.taskIdentifier)
-                    })
+                    .fillMaxWidth())
             Divider(
                 color = Color.Gray,
                 thickness = dimensionResource(

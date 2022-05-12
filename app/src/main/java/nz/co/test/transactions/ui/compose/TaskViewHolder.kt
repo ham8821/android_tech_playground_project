@@ -1,76 +1,29 @@
 package nz.co.test.transactions.ui.compose
 
-import android.content.res.Configuration
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
-import nz.co.test.transactions.R
-import nz.co.test.transactions.ui.AppTheme
+import androidx.navigation.NavController
 import nz.co.test.transactions.ui.states.TaskViewHolderState
 
 @Composable
 fun TaskViewHolder(
+    navController: NavController,
     state: TaskViewHolderState,
     modifier: Modifier
 ) {
-    ConstraintLayout(modifier = modifier) {
-        val (
-            taskNameView, taskDescriptionView, dateView, taskIDView
-        ) = createRefs()
-        val standardMargin = dimensionResource(
-            id = R.dimen.default_margin
-        )
-        TaskTitleView(state.taskName, modifier = Modifier.constrainAs(taskNameView) {
-            width = Dimension.wrapContent
-            start.linkTo(
-                anchor = parent.start,
-                margin = standardMargin
-            )
-            top.linkTo(parent.top)
-            end.linkTo(dateView.start)
-            bottom.linkTo(taskDescriptionView.top)
-        })
-        TaskDescriptionView(
-            state.taskDescription,
-            modifier = Modifier.constrainAs(taskDescriptionView) {
-                width = Dimension.wrapContent
-                start.linkTo(
-                    anchor = parent.start,
-                    margin = standardMargin
-                )
-                top.linkTo(taskNameView.bottom)
-                end.linkTo(taskIDView.start)
-                bottom.linkTo(parent.bottom)
-            })
-        DateTextView(state.date, modifier = Modifier.constrainAs(dateView) {
-            width = Dimension.wrapContent
-            start.linkTo(
-                anchor = taskNameView.end,
-                margin = standardMargin
-            )
-            top.linkTo(parent.top)
-            end.linkTo(parent.end)
-            bottom.linkTo(taskIDView.top)
-        })
-        TaskIdentifierTextView(state.taskIdentifier, modifier = Modifier.constrainAs(taskIDView) {
-            width = Dimension.wrapContent
-            start.linkTo(
-                anchor = dateView.start,
-                margin = standardMargin
-            )
-            top.linkTo(dateView.bottom)
-            end.linkTo(parent.end)
-            bottom.linkTo(parent.bottom)
-        })
+    Column(modifier = Modifier
+        .clickable {
+            navController.navigate("taskDetail/" + state.taskIdentifier)
+        }
+        .padding(12.dp)) {
+        TaskTitleView(title = state.taskName, modifier = modifier)
+        TaskDescriptionView(description = state.taskDescription, modifier = modifier)
     }
 
 }
@@ -82,7 +35,6 @@ fun TaskTitleView(
 ) {
     Text(
         text = title,
-        color = MaterialTheme.colors.onPrimary,
         modifier = modifier,
         fontSize = 16.sp
     )
@@ -95,7 +47,6 @@ fun TaskDescriptionView(
 ) {
     Text(
         text = description,
-        color = MaterialTheme.colors.onSecondary,
         fontSize = 12.sp,
         modifier = modifier
 
@@ -109,7 +60,6 @@ fun DateTextView(
 ) {
     Text(
         text = date,
-        color = MaterialTheme.colors.onSecondary,
         fontSize = 12.sp,
         modifier = modifier
     )
@@ -122,35 +72,35 @@ fun TaskIdentifierTextView(
 ) {
     Text(
         text = identifier,
-        color = MaterialTheme.colors.onSecondary,
         fontSize = 12.sp,
         modifier = modifier
     )
 }
-
-@Preview
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true
-)
-@Composable
-fun ArticleViewHolderPreview() {
-    AppTheme {
-        TaskViewHolder(
-            state = TaskViewHolderState(
-                taskName = "Task Title",
-                taskDescription = "Task Description",
-                date = "Task Date",
-                taskIdentifier = "Identifier"
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(
-                    all = dimensionResource(
-                        id = R.dimen.default_margin
-                    )
-                )
-        )
-    }
-}
+//
+//@Preview
+//@Preview(
+//    uiMode = Configuration.UI_MODE_NIGHT_YES,
+//    showBackground = true
+//)
+//@Composable
+//fun ArticleViewHolderPreview() {
+//    AppTheme {
+//        TaskViewHolder(
+//            navController = NavController(this),
+//            state = TaskViewHolderState(
+//                taskName = "Task Title",
+//                taskDescription = "Task Description",
+//                date = "Task Date",
+//                taskIdentifier = "Identifier"
+//            ),
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .wrapContentHeight()
+//                .padding(
+//                    all = dimensionResource(
+//                        id = R.dimen.default_margin
+//                    )
+//                )
+//        )
+//    }
+//}

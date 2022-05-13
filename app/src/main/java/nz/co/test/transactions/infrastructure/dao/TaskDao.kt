@@ -10,7 +10,7 @@ interface TaskDao {
     // The flow always holds/caches latest version of data. Notifies its observers when the
     // data has changed.
     @Query("SELECT * FROM task_table ORDER BY date DESC")
-    suspend fun getTasks(): List<Task>
+    fun getAllTasks(): Flow<List<Task>>
 
     @Query("SELECT * FROM task_table WHERE id = :taskId")
     suspend fun getTask(taskId: Int): Task?

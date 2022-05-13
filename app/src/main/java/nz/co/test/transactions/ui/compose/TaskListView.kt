@@ -166,7 +166,7 @@ fun TaskListView(
                                         coroutineScope.launch {
                                             bottomSheetScaffoldState.bottomSheetState.collapse()
                                         }
-                                        navController.navigate("taskList")
+//                                        navController.navigate("taskList")
                                     }
                                 },
                                 Modifier
@@ -237,7 +237,7 @@ fun TaskListView(
                                 onClick = {
                                     // This really needs to be Flow.
                                     viewModel.removeAllTasks()
-                                    navController.navigate("taskList")
+//                                    navController.navigate("taskList")
                                     selectedItem.value = "delete"
                                 },
                                 alwaysShowLabel = false

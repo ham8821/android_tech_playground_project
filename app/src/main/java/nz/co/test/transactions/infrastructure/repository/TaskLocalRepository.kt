@@ -10,9 +10,7 @@ import javax.inject.Inject
 
 class TaskLocalRepository @Inject constructor(private val taskDao: TaskDao){
 
-    suspend fun allTask(): List<Task>{
-      return taskDao.getTasks()
-    }
+    fun getTasks(): Flow<List<Task>> = taskDao.getAllTasks()
 
     suspend fun getTask(taskId: Int): Task? {
         return taskDao.getTask(taskId)

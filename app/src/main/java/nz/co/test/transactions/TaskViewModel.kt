@@ -37,23 +37,23 @@ class TaskViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val tasks: List<Task> = taskLocalRepository.allTask()
-            Log.d("RESPONSE!!!", tasks.toString())
-            val taskList: ArrayList<TaskViewHolderState> = arrayListOf()
-            tasks.map {
-                taskList.add(
-                    TaskViewHolderState(
-                        it.title,
-                        it.description,
-                        it.date,
-                        it.id.toString()
-                    )
-                )
-            }
-            if (taskList.isEmpty()) {
-                _state.value = TaskListViewState.Error("Something went wrong. ")
-            } else {
-                _state.value = TaskListViewState.Loaded(taskList)
+            taskLocalRepository.getTasks().collect { list ->
+                if (list.isNotEmpty()) {
+                    val taskList: ArrayList<TaskViewHolderState> = arrayListOf()
+                    list.map { task ->
+                        taskList.add(
+                            TaskViewHolderState(
+                                task.title,
+                                task.description,
+                                task.date,
+                                task.id.toString()
+                            )
+                        )
+                    }
+                    _state.value = TaskListViewState.Loaded(taskList)
+                } else {
+                    _state.value = TaskListViewState.Error("Something went wrong. ")
+                }
             }
         }
     }

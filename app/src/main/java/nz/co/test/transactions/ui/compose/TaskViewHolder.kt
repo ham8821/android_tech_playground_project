@@ -1,9 +1,7 @@
 package nz.co.test.transactions.ui.compose
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -13,6 +11,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nz.co.test.transactions.TaskViewModel
@@ -27,13 +26,13 @@ fun TaskViewHolder(
     modifier: Modifier
 ) {
 
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth().fillMaxHeight().clickable {
+        navController.navigate("taskDetail/" + state.taskIdentifier)
+    }.padding(8.dp)) {
 
-        Column(modifier = Modifier.clickable {
-            navController.navigate("taskDetail/" + state.taskIdentifier)
-        }) {
-            TaskTitleView(title = state.taskName, modifier = modifier)
-            TaskDescriptionView(description = state.taskDescription, modifier = modifier)
+        Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Top) {
+            TaskTitleView(title = state.taskName, modifier = Modifier.fillMaxHeight().fillMaxWidth())
+            TaskDescriptionView(description = state.taskDescription, modifier = Modifier.fillMaxHeight().fillMaxWidth())
         }
 
         IconButton(onClick = {

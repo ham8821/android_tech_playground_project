@@ -325,6 +325,7 @@ fun TaskListRecyclerView(
                 viewModel = viewModel,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fillMaxHeight()
             )
             Divider(
                 color = MaterialTheme.colors.secondaryVariant,

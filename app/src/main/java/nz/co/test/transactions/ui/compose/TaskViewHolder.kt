@@ -2,21 +2,21 @@ package nz.co.test.transactions.ui.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role.Companion.RadioButton
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.states.TaskViewHolderState
+import nz.co.test.transactions.ui.utils.Utility.makeToast
 
 @Composable
 fun TaskViewHolder(
@@ -25,14 +25,36 @@ fun TaskViewHolder(
     viewModel: TaskViewModel,
     modifier: Modifier
 ) {
+val context = LocalContext.current
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .clickable {
+                navController.navigate("taskDetail/" + state.taskIdentifier)
+            }
+            .padding(8.dp)
+    ) {
 
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth().fillMaxHeight().clickable {
-        navController.navigate("taskDetail/" + state.taskIdentifier)
-    }.padding(8.dp)) {
+        RadioButton(
+            selected = false, modifier = Modifier,
+            onClick = {
+                makeToast(context, "item clicked")
+            }
+        )
 
-        Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Top) {
-            TaskTitleView(title = state.taskName, modifier = Modifier.fillMaxHeight().fillMaxWidth())
-            TaskDescriptionView(description = state.taskDescription, modifier = Modifier.fillMaxHeight().fillMaxWidth())
+        Column(modifier = Modifier.fillMaxHeight().weight(1f), verticalArrangement = Arrangement.Top) {
+            TaskTitleView(
+                title = state.taskName,
+                modifier = Modifier
+                    .wrapContentHeight()
+            )
+            TaskDescriptionView(
+                description = state.taskDescription,
+                modifier = Modifier
+                    .wrapContentHeight()
+            )
         }
 
         IconButton(onClick = {
@@ -45,7 +67,8 @@ fun TaskViewHolder(
                 )
             )
             navController.navigate("taskList")
-        }, modifier = Modifier.align(Alignment.TopEnd)) {
+        }, modifier = Modifier
+        ) {
             Icon(
                 Icons.Filled.Delete,
                 contentDescription = "close bottomsheet",
@@ -63,7 +86,7 @@ fun TaskTitleView(
     Text(
         text = title,
         modifier = modifier,
-        fontSize = 16.sp
+        fontSize = 14.sp
     )
 }
 

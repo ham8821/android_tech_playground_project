@@ -40,7 +40,7 @@ class TaskViewModel @Inject constructor(
             val tasks: List<Task> = taskLocalRepository.allTask()
             Log.d("RESPONSE!!!", tasks.toString())
             val taskList: ArrayList<TaskViewHolderState> = arrayListOf()
-            tasks?.map {
+            tasks.map {
                 taskList.add(
                     TaskViewHolderState(
                         it.title,

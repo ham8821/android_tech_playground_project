@@ -83,7 +83,6 @@ fun TaskListView(
                 modifier = Modifier
                     .wrapContentHeight()
                     .fillMaxWidth()
-                    .background(Color(0xAA3fa7cc))
                     .padding(8.dp),
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Top,
@@ -102,8 +101,7 @@ fun TaskListView(
                     ) {
                         Icon(
                             Icons.Filled.Close,
-                            contentDescription = "close bottomsheet",
-                            tint = Color.White
+                            contentDescription = "close bottomsheet"
                         )
                     }
                 }
@@ -116,8 +114,7 @@ fun TaskListView(
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 21.sp,
-                        color = Color.White
+                        fontSize = 21.sp
                     )
                     Spacer(modifier = Modifier.padding(16.dp))
                     Column(
@@ -185,7 +182,6 @@ fun TaskListView(
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp)
-                    .background(Color(0xAA3fa7cc))
                     .padding(16.dp)
             )
         },
@@ -203,7 +199,7 @@ fun TaskListView(
                             Icon(Icons.Filled.Search, contentDescription = "")
                         }
                         IconButton(onClick = onToggleTheme) {
-                            Icon(Icons.Filled.MoreVert, contentDescription = "")
+                            Icon(Icons.Filled.Build, contentDescription = "")
                         }
                     },
                     elevation = AppBarDefaults.TopAppBarElevation
@@ -216,16 +212,16 @@ fun TaskListView(
             floatingActionButtonPosition = FabPosition.Center,
 
             bottomBar = {
-                val selectedItem = remember { mutableStateOf("delete")}
+                val selectedItem = remember { mutableStateOf("delete") }
                 BottomAppBar(
                     cutoutShape = RoundedCornerShape(50),
                     content = {
                         BottomNavigation() {
                             BottomNavigationItem(
                                 icon = {
-                                    Icon(Icons.Filled.Favorite , "")
+                                    Icon(Icons.Filled.Favorite, "")
                                 },
-                                label = { Text(text = "Favorite")},
+                                label = { Text(text = "Favorite") },
                                 selected = selectedItem.value == "favorite",
                                 onClick = {
                                     selectedItem.value = "favorite"
@@ -235,9 +231,9 @@ fun TaskListView(
 
                             BottomNavigationItem(
                                 icon = {
-                                    Icon(Icons.Filled.Delete ,  "")
+                                    Icon(Icons.Filled.Delete, "")
                                 },
-                                label = { Text(text = "Delete")},
+                                label = { Text(text = "Delete") },
                                 selected = selectedItem.value == "delete",
                                 onClick = {
                                     // This really needs to be Flow.

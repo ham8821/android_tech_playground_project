@@ -2,7 +2,6 @@ package nz.co.test.transactions.ui.compose
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

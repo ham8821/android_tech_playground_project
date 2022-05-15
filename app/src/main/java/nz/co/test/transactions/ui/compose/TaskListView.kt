@@ -157,8 +157,7 @@ fun TaskListView(
                                             Task(
                                                 title = taskName.value,
                                                 description = taskDescription.value,
-                                                date = getFormattedCurrentDate(),
-                                                id = Random.nextInt()
+                                                date = getFormattedCurrentDate()
                                             )
                                         )
                                         taskName.value = ""

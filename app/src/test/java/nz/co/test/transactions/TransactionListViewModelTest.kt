@@ -8,7 +8,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import nz.co.test.transactions.infrastructure.model.Transaction
-import nz.co.test.transactions.infrastructure.repository.TransactionsRepository
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

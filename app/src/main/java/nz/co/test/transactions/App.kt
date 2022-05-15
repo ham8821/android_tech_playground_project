@@ -19,7 +19,7 @@ class App : Application() {
     val repository by lazy { TaskLocalRepository( database.taskDao()) }
 
     //Todo: could be implemented with SharedPreference
-    val isDark = mutableStateOf(false)
+    val isDark = mutableStateOf(true)
 
     override fun onCreate() {
         super.onCreate()

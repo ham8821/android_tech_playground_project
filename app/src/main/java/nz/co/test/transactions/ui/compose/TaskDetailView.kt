@@ -10,15 +10,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import dagger.hilt.android.qualifiers.ApplicationContext
+import nz.co.test.transactions.App
 import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.ui.AppTheme
 import nz.co.test.transactions.ui.states.TaskDetailState
 
 
 @Composable
-fun TaskDetailScreenView(navController: NavController, userId: String?, viewmodel: TaskViewModel){
+fun TaskDetailScreenView(navController: NavController, userId: String?, application: App, viewmodel: TaskViewModel){
     val state by viewmodel.detailState.collectAsState()
     viewmodel.getTask(userId!!)
-    TaskDetailView(state, navController, Modifier.fillMaxSize())
+    AppTheme(useDarkTheme = application.isDark.value) {
+        TaskDetailView(state, navController, Modifier.fillMaxSize())
+    }
 }
 
 @Composable

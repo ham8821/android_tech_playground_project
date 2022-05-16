@@ -189,7 +189,7 @@ fun TaskListView(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "To-Do Manager")
+                        Text(text = "To-Do Manager", style = MaterialTheme.typography.h5)
                     },
                     actions = {
                         IconButton(onClick = {

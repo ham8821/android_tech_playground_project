@@ -1,6 +1,7 @@
 package nz.co.test.transactions
 
 import android.util.Log
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.infrastructure.model.Task
@@ -52,7 +53,7 @@ class TaskViewModel @Inject constructor(
                     }
                     _state.value = TaskListViewState.Loaded(taskList)
                 } else {
-                    _state.value = TaskListViewState.Error("Something went wrong. ")
+                    _state.value = TaskListViewState.Error("You have no task. \nLet\'s add some tasks by clicking the plus button below!")
                 }
             }
         }

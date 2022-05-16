@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable("taskDetail/{userId}"){ backStackEntry ->
                     val viewModel = hiltViewModel<TaskViewModel>()
-                    TaskDetailScreenView(navController, backStackEntry.arguments?.getString("userId"), viewModel)
+                    TaskDetailScreenView(navController, backStackEntry.arguments?.getString("userId"), application=  application, viewModel)
                 }
             }
         }

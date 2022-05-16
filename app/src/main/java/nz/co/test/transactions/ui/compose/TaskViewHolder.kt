@@ -5,13 +5,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
+import nz.co.test.transactions.R
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.states.TaskViewHolderState
@@ -24,7 +27,7 @@ fun TaskViewHolder(
     viewModel: TaskViewModel,
     modifier: Modifier
 ) {
-val context = LocalContext.current
+    var openDialog by remember { mutableStateOf(false) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -39,11 +42,15 @@ val context = LocalContext.current
         RadioButton(
             selected = false, modifier = Modifier,
             onClick = {
-                makeToast(context, "item clicked")
+                openDialog = true
             }
         )
 
-        Column(modifier = Modifier.fillMaxHeight().weight(1f), verticalArrangement = Arrangement.Top) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f), verticalArrangement = Arrangement.Top
+        ) {
             TaskTitleView(
                 title = state.taskName,
                 modifier = Modifier
@@ -56,17 +63,18 @@ val context = LocalContext.current
             )
         }
 
-        IconButton(onClick = {
-            viewModel.removeTask(
-                Task(
-                    state.taskIdentifier.toInt(),
-                    state.date,
-                    state.taskName,
-                    state.taskDescription
+        IconButton(
+            onClick = {
+                viewModel.removeTask(
+                    Task(
+                        state.taskIdentifier.toInt(),
+                        state.date,
+                        state.taskName,
+                        state.taskDescription
+                    )
                 )
-            )
-            navController.navigate("taskList")
-        }, modifier = Modifier
+                navController.navigate("taskList")
+            }, modifier = Modifier
         ) {
             Icon(
                 Icons.Filled.Delete,
@@ -75,7 +83,47 @@ val context = LocalContext.current
             )
         }
     }
+
+    if (openDialog) {
+        AlertDialog(
+            modifier = Modifier.padding(20.dp),
+            onDismissRequest = { openDialog = false },
+            title = {
+                Text(
+                    text = stringResource(id = R.string.complete_task),
+                    style = MaterialTheme.typography.h6
+                )
+            },
+            text = {
+                Text(
+                    text = stringResource(id = R.string.complete_task_msg),
+                    style = MaterialTheme.typography.body1
+                )
+            },
+            confirmButton = {
+                Text(
+                    text = stringResource(id = R.string.complete),
+                    style = MaterialTheme.typography.button,
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier
+                        .padding(15.dp)
+                        .clickable {
+                            openDialog = false
+                            viewModel.removeTask(
+                                Task(
+                                    state.taskIdentifier.toInt(),
+                                    state.date,
+                                    state.taskName,
+                                    state.taskDescription
+                                )
+                            )
+                        }
+                )
+            }
+        )
+    }
 }
+
 
 @Composable
 fun TaskTitleView(
@@ -84,6 +132,7 @@ fun TaskTitleView(
 ) {
     Text(
         text = title,
+        style = MaterialTheme.typography.body1,
         modifier = modifier,
         fontSize = 14.sp
     )

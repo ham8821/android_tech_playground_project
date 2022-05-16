@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Task Assistant</string>
     <string name="search_hint">Search Task</string>
-    <string name="no_task_found">You have no task to complete!</string>
+    <string name="no_task_found">You have no task. Let\'s add some tasks by clicking the plus button below!</string>
     <string name="add_task">Add your new task</string>
+    <string name="complete_task">Just to confirm</string>
+    <string name="complete_task_msg">Is this task completed?</string>
+    <string name="complete">Complete</string>
     <string name="add_task_name_hint">Type your task name..</string>
     <string name="add_task_description_hint">Type your task description..</string>
     <string name="task_name">Name</string>

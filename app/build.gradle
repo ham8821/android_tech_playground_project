@@ -102,6 +102,8 @@ dependencies {
     implementation Deps.compose_compiler
     implementation Deps.compose_runtime
     implementation Deps.compose_constraintlayout
+    implementation Deps.swipeRefresh
+    implementation Deps.systemUiController
 
     // Navigation
     implementation Deps.navigation_fragment

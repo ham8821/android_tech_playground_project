@@ -24,6 +24,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.App
@@ -43,6 +45,12 @@ import kotlin.random.Random
 fun TaskListScreenView(navController: NavController, application: App, viewModel: TaskViewModel) {
     val state by viewModel.state.collectAsState()
     AppTheme(useDarkTheme = application.isDark.value) {
+        val systemUiController = rememberSystemUiController()
+        val darkIcons = !application.isDark.value
+        val statusBarColor = if (darkIcons) Color.White else Color.Black
+        SideEffect {
+            systemUiController.setSystemBarsColor(statusBarColor, darkIcons = darkIcons)
+        }
         TaskListView(
             viewModel,
             state = state,
@@ -200,7 +208,8 @@ fun TaskListView(
                             Icon(Icons.Filled.Build, contentDescription = "")
                         }
                     },
-                    elevation = AppBarDefaults.TopAppBarElevation
+                    elevation = AppBarDefaults.TopAppBarElevation,
+                    backgroundColor = MaterialTheme.colors.background
                 )
             },
             floatingActionButton = {

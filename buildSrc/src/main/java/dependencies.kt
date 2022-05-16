@@ -1,3 +1,4 @@
+import Versions.accompanist_version
 import Versions.coil
 import Versions.compose
 import Versions.kotlin
@@ -31,6 +32,7 @@ object Versions{
     const val compose_constraintlayout = "1.0.0"
     const val coil = "1.4.0"
     const val hilt = "2.41"
+    const val accompanist_version = "0.24.7-alpha"
 }
 
 object Deps {
@@ -56,6 +58,8 @@ object Deps {
     const val compose_coil = "io.coil-kt:coil-compose:$coil"
 
     val compose_constraintlayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.compose_constraintlayout}"
+    val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+    val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
     // Navigation
     const val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:$navigation"

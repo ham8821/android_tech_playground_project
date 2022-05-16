@@ -5,6 +5,11 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,6 +34,22 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController = rememberNavController()
 
+            var canPop by remember { mutableStateOf(false) }
+
+            navController.addOnDestinationChangedListener { controller, _, _ ->
+                canPop = controller.previousBackStackEntry != null
+            }
+
+            val navigationIcon: (@Composable () -> Unit)? =
+                if (canPop) {
+                    {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                        }
+                    }
+                } else {
+                    null
+                }
             NavHost(navController, startDestination = "taskList") {
                 composable("taskList") {
                     val viewModel = hiltViewModel<TaskViewModel>()
@@ -36,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable("taskDetail/{userId}"){ backStackEntry ->
                     val viewModel = hiltViewModel<TaskViewModel>()
-                    TaskDetailScreenView(navController, backStackEntry.arguments?.getString("userId"), application=  application, viewModel)
+                    TaskDetailScreenView(navController, backStackEntry.arguments?.getString("userId"), application=  application, viewModel, navigationIcon)
                 }
             }
         }

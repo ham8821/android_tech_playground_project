@@ -57,7 +57,7 @@ fun TaskDetailScreenView(
                             Icon(Icons.Filled.Delete, contentDescription = "Edit Task")
                         }
                         IconButton(onClick = {
-//                            viewModel.openEditMode(state)
+                            viewModel.openEditMode()
                         }) {
                             Icon(Icons.Filled.Edit, contentDescription = "Edit Task")
                         }

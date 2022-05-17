@@ -25,6 +25,7 @@ class TaskViewModel @Inject constructor(
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val showNoTransactonFoundView: MutableLiveData<Boolean> = MutableLiveData()
     val showListScreen: MutableLiveData<Boolean> = MutableLiveData()
+    private lateinit var detail: TaskViewHolderState
 
     private val _state: MutableStateFlow<TaskListViewState> = MutableStateFlow(
         TaskListViewState.Loading
@@ -53,7 +54,8 @@ class TaskViewModel @Inject constructor(
                     }
                     _state.value = TaskListViewState.Loaded(taskList)
                 } else {
-                    _state.value = TaskListViewState.Error("You have no task. \nLet\'s add some tasks by clicking the plus button below!")
+                    _state.value =
+                        TaskListViewState.Error("You have no task. \nLet\'s add some tasks by clicking the plus button below!")
                 }
             }
         }
@@ -64,9 +66,9 @@ class TaskViewModel @Inject constructor(
             val task: Task? = taskLocalRepository.getTask(userId.toInt())
             Log.d("RESPONSE DETAIL", task.toString())
             if (task != null) {
-                val taskState =
+                detail =
                     TaskViewHolderState(task.title, task.description, task.date, task.id.toString())
-                _detailState.value = TaskDetailState.Loaded(taskState, false)
+                _detailState.value = TaskDetailState.Loaded(detail, false)
             }
         }
     }
@@ -102,6 +104,10 @@ class TaskViewModel @Inject constructor(
                 //                        it.transactionDetail?.mOtherAccountStatementDetail hasQuery queryString ||
                 //                        getTargetAmountString(it.amount!! > 0, it.formattedAmount, queryString) hasQuery getSearchAmountString(queryString)
             }.toTypedArray()
+    }
+
+    fun openEditMode() {
+        _detailState.value = TaskDetailState.Loaded(detail, true)
     }
 
 }

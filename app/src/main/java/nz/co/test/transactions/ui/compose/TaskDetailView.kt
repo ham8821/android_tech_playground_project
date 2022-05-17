@@ -1,8 +1,6 @@
 package nz.co.test.transactions.ui.compose
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,12 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
 import nz.co.test.transactions.App
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.AppTheme
-import nz.co.test.transactions.ui.InputField
 import nz.co.test.transactions.ui.states.TaskDetailState
 import nz.co.test.transactions.ui.states.TaskViewHolderState
 import nz.co.test.transactions.ui.utils.Utility

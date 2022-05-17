@@ -1,19 +1,21 @@
 package nz.co.test.transactions
 
 import android.util.Log
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.infrastructure.repository.TaskLocalRepository
 import nz.co.test.transactions.infrastructure.repository.TaskRepository
+import nz.co.test.transactions.ui.states.TaskDetailState
 import nz.co.test.transactions.ui.states.TaskListViewState
+import nz.co.test.transactions.ui.states.TaskViewHolderState
 import nz.co.test.transactions.ui.utils.hasQuery
 import javax.inject.Inject
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
-import nz.co.test.transactions.ui.states.TaskDetailState
-import nz.co.test.transactions.ui.states.TaskViewHolderState
 
 @HiltViewModel
 class TaskViewModel @Inject constructor(

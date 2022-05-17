@@ -26,7 +26,6 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.App
@@ -38,7 +37,6 @@ import nz.co.test.transactions.ui.states.TaskListViewState
 import nz.co.test.transactions.ui.states.TaskViewHolderState
 import nz.co.test.transactions.ui.utils.Utility.getFormattedCurrentDate
 import nz.co.test.transactions.ui.utils.Utility.makeToast
-import kotlin.random.Random
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -245,9 +243,7 @@ fun TaskListView(
                                 label = { Text(text = "Delete All") },
                                 selected = selectedItem.value == "delete",
                                 onClick = {
-                                    // This really needs to be Flow.
                                     viewModel.removeAllTasks()
-//                                    navController.navigate("taskList")
                                     selectedItem.value = "delete"
                                 },
                                 alwaysShowLabel = false

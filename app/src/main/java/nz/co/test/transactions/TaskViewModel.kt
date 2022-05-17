@@ -96,6 +96,12 @@ class TaskViewModel @Inject constructor(
         }
     }
 
+    fun updateTask(task: Task){
+        viewModelScope.launch {
+            taskLocalRepository.updateTask(task)
+        }
+    }
+
     fun searchTask(task: List<Task>, savedQuery: String): Array<Task> {
         return task // for unit tests that fill partial data
             .filter {

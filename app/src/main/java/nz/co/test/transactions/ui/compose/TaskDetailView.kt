@@ -1,18 +1,20 @@
 package nz.co.test.transactions.ui.compose
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import nz.co.test.transactions.App
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
@@ -20,7 +22,10 @@ import nz.co.test.transactions.ui.AppTheme
 import nz.co.test.transactions.ui.InputField
 import nz.co.test.transactions.ui.states.TaskDetailState
 import nz.co.test.transactions.ui.states.TaskViewHolderState
+import nz.co.test.transactions.ui.utils.Utility
 
+lateinit var taskName: MutableState<String>
+lateinit var taskDescription: MutableState<String>
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -29,12 +34,13 @@ fun TaskDetailScreenView(
     userId: String?,
     application: App,
     viewModel: TaskViewModel,
-    navigationIcon: @Composable() (() -> Unit)?
+    navigationIcon: @Composable() (() -> Unit)?,
 ) {
+    val context = LocalContext.current
     val state by viewModel.detailState.collectAsState()
     viewModel.getTask(userId!!)
     AppTheme(useDarkTheme = application.isDark.value) {
-
+        val coroutineScope = rememberCoroutineScope()
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -57,10 +63,27 @@ fun TaskDetailScreenView(
                         }) {
                             Icon(Icons.Filled.Delete, contentDescription = "Edit Task")
                         }
+
                         if (state is TaskDetailState.Loaded) {
                             if ((state as TaskDetailState.Loaded).isEditMode) {
                                 IconButton(onClick = {
-                                    viewModel.closeEditMode()
+                                    val isValidate = validateInputDetail()
+                                    if (isValidate) {
+                                        if (taskName.value != (state as TaskDetailState.Loaded).data.taskName && taskName.value == (state as TaskDetailState.Loaded).data.taskDescription) {
+                                            viewModel.updateTask(
+                                                Task(
+                                                    (state as TaskDetailState.Loaded).data.taskIdentifier.toInt(),
+                                                    (state as TaskDetailState.Loaded).data.date,
+                                                    taskName.value,
+                                                    taskDescription.value
+                                                )
+                                            )
+                                            Utility.makeToast(context, "Task updated.")
+                                        }
+                                        viewModel.closeEditMode()
+                                    } else {
+                                        Utility.makeToast(context, "fields can't be empty.")
+                                    }
                                 }) {
                                     Icon(
                                         Icons.Filled.Check,
@@ -84,6 +107,10 @@ fun TaskDetailScreenView(
     }
 }
 
+fun validateInputDetail(): Boolean {
+    return !(taskName.value.isEmpty() || taskDescription.value.isEmpty())
+}
+
 @Composable
 fun TaskDetailView(state: TaskDetailState, navController: NavController, modifier: Modifier) {
     when (state) {
@@ -98,41 +125,52 @@ fun TaskDetailView(state: TaskDetailState, navController: NavController, modifie
 fun TaskDetailDataTextView(
     state: TaskViewHolderState,
     isEnabled: Boolean = false,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
+    taskName = remember { mutableStateOf(state.taskName) }
+    taskDescription = remember { mutableStateOf(state.taskDescription) }
+
     Column(modifier = Modifier.padding(16.dp)) {
-        InputField(
-            state.taskName,
-            isEnabled,
-            "Task Name",
-            Modifier
-                .wrapContentHeight()
+        OutlinedTextField(
+            value = taskName.value,
+            onValueChange = { taskName.value = it },
+            enabled = isEnabled,
+            label = { Text(text = "Task Name") },
+            placeholder = { Text(text = state.taskName) },
+            modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentHeight()
         )
-        InputField(
-            state.date,
-            isEnabled,
-            "Date",
-            Modifier
-                .wrapContentHeight()
+        OutlinedTextField(
+            value = state.date,
+            onValueChange = { },
+            enabled = false,
+            label = { Text(text = "Date") },
+            placeholder = { Text(text = state.date) },
+            modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentHeight()
         )
-        InputField(
-            state.taskIdentifier,
-            isEnabled,
-            "ID",
-            Modifier
-                .wrapContentHeight()
+        OutlinedTextField(
+            value = state.taskIdentifier,
+            onValueChange = { },
+            enabled = false,
+            label = { Text(text = "ID") },
+            placeholder = { Text(text = state.taskIdentifier) },
+            modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentHeight()
         )
         Spacer(modifier = Modifier.padding(8.dp))
-        InputField(
-            state.taskDescription,
-            isEnabled,
-            "Description",
-            Modifier
-                .wrapContentHeight()
+        OutlinedTextField(
+            value = taskDescription.value,
+            onValueChange = { taskDescription.value = it },
+            enabled = isEnabled,
+            label = { Text(text = "Description") },
+            placeholder = { Text(text = state.taskDescription) },
+            modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentHeight()
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.annotation.DimenRes
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -18,11 +19,19 @@ fun InputField(
     text: String,
     isEnabled: Boolean = false,
     label: String,
+    onValueChanged: () -> Unit,
     modifier: Modifier
 ) {
-    TextField(value = text, onValueChange = {}, placeholder = { Text(text = text) }, label = {
-        Text(
-            text = label
-        )
-    }, enabled = isEnabled, modifier = modifier)
+    TextField(
+        value = text,
+        onValueChange = { onValueChanged },
+        placeholder = { Text(text = text) },
+        label = {
+            Text(
+                text = label
+            )
+        },
+        enabled = isEnabled,
+        modifier = modifier
+    )
 }

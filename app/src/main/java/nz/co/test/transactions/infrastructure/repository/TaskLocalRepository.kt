@@ -27,4 +27,8 @@ class TaskLocalRepository @Inject constructor(private val taskDao: TaskDao){
     suspend fun removeAllTasks() {
         taskDao.deleteAll()
     }
+
+    suspend fun updateTask(task: Task){
+        taskDao.updateTask(task)
+    }
 }

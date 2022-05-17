@@ -1,5 +1,6 @@
 package nz.co.test.transactions.ui.compose
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -64,6 +65,7 @@ fun TaskListScreenView(navController: NavController, application: App, viewModel
     }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
@@ -240,7 +242,7 @@ fun TaskListView(
                                 icon = {
                                     Icon(Icons.Filled.Delete, "")
                                 },
-                                label = { Text(text = "Delete") },
+                                label = { Text(text = "Delete All") },
                                 selected = selectedItem.value == "delete",
                                 onClick = {
                                     // This really needs to be Flow.

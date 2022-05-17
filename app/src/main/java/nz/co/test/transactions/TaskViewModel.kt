@@ -110,5 +110,9 @@ class TaskViewModel @Inject constructor(
         _detailState.value = TaskDetailState.Loaded(detail, true)
     }
 
+    fun closeEditMode() {
+        _detailState.value = TaskDetailState.Loaded(detail, false)
+    }
+
 }
 

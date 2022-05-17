@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
@@ -56,10 +57,23 @@ fun TaskDetailScreenView(
                         }) {
                             Icon(Icons.Filled.Delete, contentDescription = "Edit Task")
                         }
-                        IconButton(onClick = {
-                            viewModel.openEditMode()
-                        }) {
-                            Icon(Icons.Filled.Edit, contentDescription = "Edit Task")
+                        if (state is TaskDetailState.Loaded) {
+                            if ((state as TaskDetailState.Loaded).isEditMode) {
+                                IconButton(onClick = {
+                                    viewModel.closeEditMode()
+                                }) {
+                                    Icon(
+                                        Icons.Filled.Check,
+                                        contentDescription = "Close Edit Task Detail"
+                                    )
+                                }
+                            } else {
+                                IconButton(onClick = {
+                                    viewModel.openEditMode()
+                                }) {
+                                    Icon(Icons.Filled.Edit, contentDescription = "Edit Task Detail")
+                                }
+                            }
                         }
                     }
                 )
@@ -81,7 +95,11 @@ fun TaskDetailView(state: TaskDetailState, navController: NavController, modifie
 }
 
 @Composable
-fun TaskDetailDataTextView(state: TaskViewHolderState, isEnabled: Boolean = false, modifier: Modifier) {
+fun TaskDetailDataTextView(
+    state: TaskViewHolderState,
+    isEnabled: Boolean = false,
+    modifier: Modifier
+) {
     Column(modifier = Modifier.padding(16.dp)) {
         InputField(
             state.taskName,

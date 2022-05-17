@@ -66,7 +66,7 @@ class TaskViewModel @Inject constructor(
             if (task != null) {
                 val taskState =
                     TaskViewHolderState(task.title, task.description, task.date, task.id.toString())
-                _detailState.value = TaskDetailState.Loaded(taskState)
+                _detailState.value = TaskDetailState.Loaded(taskState, false)
             }
         }
     }

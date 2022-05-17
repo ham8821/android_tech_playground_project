@@ -1,9 +1,7 @@
 package nz.co.test.transactions.ui.compose
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -12,6 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import nz.co.test.transactions.App
 import nz.co.test.transactions.TaskViewModel
@@ -26,58 +27,47 @@ fun TaskDetailScreenView(
     navController: NavController,
     userId: String?,
     application: App,
-    viewmodel: TaskViewModel,
+    viewModel: TaskViewModel,
     navigationIcon: @Composable() (() -> Unit)?
 ) {
-    val state by viewmodel.detailState.collectAsState()
-    viewmodel.getTask(userId!!)
+    val state by viewModel.detailState.collectAsState()
+    viewModel.getTask(userId!!)
     AppTheme(useDarkTheme = application.isDark.value) {
 
         Scaffold(
             topBar = {
-                when (state) {
-                    is TaskDetailState.Loading -> TopAppBar(
-                        title = { Text("Loading Detail..") },
-                        navigationIcon = navigationIcon,
-                        backgroundColor = MaterialTheme.colors.background
-                    )
-                    is TaskDetailState.Loaded ->
-                        TopAppBar(
-                            title = { NavTitleView(state as TaskDetailState.Loaded) },
-                            navigationIcon = navigationIcon,
-                            backgroundColor = MaterialTheme.colors.background,
-                            actions = {
-                                IconButton(onClick = {
-                                    viewmodel.removeTask(
-                                        Task(
-                                            (state as TaskDetailState.Loaded).data.taskIdentifier.toInt(),
-                                            (state as TaskDetailState.Loaded).data.date,
-                                            (state as TaskDetailState.Loaded).data.taskName,
-                                            (state as TaskDetailState.Loaded).data.taskDescription
-                                        )
-                                    )
-                                    navController.navigateUp()
-                                }) {
-                                    Icon(Icons.Filled.Delete, contentDescription = "Edit Task")
-                                }
-                                IconButton(onClick = {
-                                    // Edit mode open
-                                }) {
-                                    Icon(Icons.Filled.Edit, contentDescription = "Edit Task")
-                                }
-                            },
-                        )
-                }
+                TopAppBar(
+                    title = {
+                        Text(text = "")
+                    },
+                    navigationIcon = navigationIcon,
+                    backgroundColor = MaterialTheme.colors.background,
+                    actions = {
+                        IconButton(onClick = {
+                            viewModel.removeTask(
+                                Task(
+                                    (state as TaskDetailState.Loaded).data.taskIdentifier.toInt(),
+                                    (state as TaskDetailState.Loaded).data.date,
+                                    (state as TaskDetailState.Loaded).data.taskName,
+                                    (state as TaskDetailState.Loaded).data.taskDescription
+                                )
+                            )
+                            navController.navigateUp()
+                        }) {
+                            Icon(Icons.Filled.Delete, contentDescription = "Edit Task")
+                        }
+                        IconButton(onClick = {
+                            // Edit mode open
+                        }) {
+                            Icon(Icons.Filled.Edit, contentDescription = "Edit Task")
+                        }
+                    }
+                )
             }
         ) {
             TaskDetailView(state, navController, Modifier.fillMaxSize())
         }
     }
-}
-
-@Composable
-fun NavTitleView(state: TaskDetailState.Loaded) {
-    Text(text = state.data.taskName)
 }
 
 @Composable
@@ -92,10 +82,55 @@ fun TaskDetailView(state: TaskDetailState, navController: NavController, modifie
 
 @Composable
 fun TaskDetailDataTextView(state: TaskDetailState.Loaded, modifier: Modifier) {
-    Column(modifier = modifier) {
-        Text(text = state.data.taskIdentifier)
-        Text(text = state.data.taskName)
-        Text(text = state.data.taskDescription)
-        Text(text = state.data.date)
+    Column(modifier = Modifier.padding(16.dp)) {
+        TaskDetailInputField(
+            state.data.taskName,
+            false,
+            "Task Name",
+            Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+
+//        Spacer(modifier = Modifier.padding(16.dp))
+        TaskDetailInputField(
+            state.data.date,
+            false,
+            "Date",
+            Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+        TaskDetailInputField(
+            state.data.taskIdentifier,
+            false,
+            "ID",
+            Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+        TaskDetailInputField(
+            state.data.taskDescription,
+            false,
+            "Description",
+            Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
     }
+}
+
+@Composable
+fun TaskDetailInputField(
+    text: String,
+    isEnabled: Boolean = false,
+    label: String,
+    modifier: Modifier
+) {
+    TextField(value = text, onValueChange = {}, placeholder = { Text(text = text) }, label = {
+        Text(
+            text = label
+        )
+    }, enabled = isEnabled, modifier = modifier)
 }

@@ -32,6 +32,7 @@ import nz.co.test.transactions.App
 import nz.co.test.transactions.R
 import nz.co.test.transactions.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
+import nz.co.test.transactions.ui.AppIcon
 import nz.co.test.transactions.ui.AppTheme
 import nz.co.test.transactions.ui.states.TaskListViewState
 import nz.co.test.transactions.ui.states.TaskViewHolderState
@@ -197,7 +198,10 @@ fun TaskListView(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "To-Do Manager", style = MaterialTheme.typography.h5)
+                        Text(text = "To-Do Manager", style = MaterialTheme.typography.h5, textAlign = TextAlign.Justify)
+                    },
+                    navigationIcon = {
+                        AppIcon(R.drawable.ic_logo, "App Logo", modifier = Modifier.fillMaxSize().padding(12.dp, 12.dp))
                     },
                     actions = {
                         IconButton(onClick = {

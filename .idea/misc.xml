@@ -11,6 +11,8 @@
         <entry key="../../../layout/custom_preview.xml" value="0.35435897435897434" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.2578125" />
         <entry key="app/src/main/res/drawable/ic_chevron.xml" value="0.19635416666666666" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_transaction.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/layout/add_item_layout.xml" value="0.23177083333333334" />
@@ -22,6 +24,8 @@
         <entry key="app/src/main/res/layout/list_item_transaction.xml" value="0.33" />
         <entry key="app/src/main/res/menu/action_delete.xml" value="0.328125" />
         <entry key="app/src/main/res/menu/menu_search.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="app/src/main/res/xml/searchable.xml" value="0.32447916666666665" />
       </map>
     </option>

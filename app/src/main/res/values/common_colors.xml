@@ -18,4 +18,8 @@
 
     <color name="RedErrorDark">#B00020</color>
     <color name="RedErrorLight">#EF5350</color>
+
+    <color name="Yellow">#CDDC39</color>
+    <color name="Blue">#4a4cf4</color>
+
 </resources>

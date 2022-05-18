@@ -242,8 +242,8 @@ fun TaskListView(
             drawerContent = {
                 AppDrawer(
                     currentRoute = "taskList",
-                    navigateToHome = { navController.navigate("taskList")},
-                    navigateToCompleted = {navController.navigate("taskList")},
+                    navigateToHome = { navController.navigate("taskList") },
+                    navigateToCompleted = { navController.navigate("taskList") },
                     closeDrawer = { coroutineScope.launch { scaffoldState.drawerState.close() } },
                     modifier = Modifier
                         .statusBarsPadding()
@@ -335,42 +335,6 @@ fun TaskListView(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun DrawerContentView(modifier: Modifier, navController: NavController) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight()
-        .padding(8.dp)) {
-        Row(modifier = Modifier.wrapContentHeight().fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start) {
-            AppIcon(R.drawable.ic_logo,
-                "App Logo",
-                modifier = Modifier
-                    .padding(8.dp).width(26.dp).height(26.dp))
-
-            Text(
-                text = "Menu",
-                style = MaterialTheme.typography.body1
-            )
-        }
-        Divider(
-            color = MaterialTheme.colors.secondaryVariant,
-            thickness = dimensionResource(
-                id = R.dimen.divider_size
-            ),
-            modifier = Modifier
-                .padding(
-                    bottom = dimensionResource(
-                        id = R.dimen.divider_size
-                    )
-                )
-        )
-
-
     }
 }
 

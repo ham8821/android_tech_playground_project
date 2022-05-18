@@ -12,12 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.jetnews.ui.theme.AppTypography
 
-/* implementation of MaterialTheme (in this case SpaceAppTheme) can be defined.*/
 private val LightThemeColors = lightColors(
-    primary = orange_500,
-    primaryVariant = orange_300,
+    primary = YellowGreen,
+    primaryVariant = YellowGreen,
     onPrimary = black2,
-    secondary = Color.White,
+    secondary = PurpleBlue,
     secondaryVariant = dark_grey,
     onSecondary = black2,
     error = RedErrorDark,
@@ -29,10 +28,10 @@ private val LightThemeColors = lightColors(
 )
 
 private val DarkThemeColors = darkColors(
-    primary = orange_600,
+    primary = YellowGreen,
     primaryVariant = Color.White,
     onPrimary = Color.White,
-    secondary = black1,
+    secondary = PurpleBlue,
     onSecondary = Color.White,
     secondaryVariant = light_grey,
     error = RedErrorLight,

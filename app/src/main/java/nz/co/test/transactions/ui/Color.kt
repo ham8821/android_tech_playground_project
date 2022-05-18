@@ -24,3 +24,6 @@ val light_grey = Color(0xFFe9e3e3)
 
 val RedErrorDark = Color(0xFFB00020)
 val RedErrorLight = Color(0xFFEF5350)
+
+val YellowGreen = Color(0xFFCDDC39)
+val PurpleBlue = Color(0xFF4a4cf4)

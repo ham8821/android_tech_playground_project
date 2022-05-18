@@ -1,5 +1,6 @@
 package nz.co.test.transactions.ui.compose
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nz.co.test.transactions.R.*
 import nz.co.test.transactions.ui.AppIcon
+import nz.co.test.transactions.ui.AppTheme
 import nz.co.test.transactions.ui.NavigationIcon
 
 @Composable
@@ -76,7 +79,7 @@ private fun DrawerButton(
         colors.onSurface.copy(alpha = 0.6f)
     }
     val backgroundColor = if (isSelected) {
-        colors.primary.copy(alpha = 0.12f)
+        colors.primary.copy(alpha = 0.06f)
     } else {
         Color.Transparent
     }
@@ -111,6 +114,22 @@ private fun DrawerButton(
                     color = textIconColor
                 )
             }
+        }
+    }
+}
+
+@Preview("Drawer contents")
+@Preview("Drawer contents (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewAppDrawer() {
+    AppTheme {
+        Surface {
+            AppDrawer(
+                currentRoute = "taskList",
+                navigateToHome = {},
+                navigateToCompleted = {},
+                closeDrawer = { }
+            )
         }
     }
 }

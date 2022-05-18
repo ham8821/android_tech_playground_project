@@ -73,7 +73,7 @@ fun TaskListView(
     state: TaskListViewState,
     navController: NavController,
     modifier: Modifier,
-    onToggleTheme: () -> Unit
+    onToggleTheme: () -> Unit,
 ) {
     val defaultMargin = dimensionResource(
         id = R.dimen.default_margin
@@ -174,7 +174,6 @@ fun TaskListView(
                                         coroutineScope.launch {
                                             bottomSheetScaffoldState.bottomSheetState.collapse()
                                         }
-//                                        navController.navigate("taskList")
                                     }
                                 },
                                 Modifier
@@ -194,14 +193,33 @@ fun TaskListView(
         },
         sheetPeekHeight = 0.dp,
         topBar = {}) {
+        val scaffoldState: ScaffoldState = rememberScaffoldState(
+            rememberDrawerState(DrawerValue.Closed)
+        )
         Scaffold(
+            scaffoldState = scaffoldState,
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "To-Do Manager", style = MaterialTheme.typography.h5, textAlign = TextAlign.Justify)
+                        Text(text = "To-Do Manager",
+                            style = MaterialTheme.typography.h5,
+                            textAlign = TextAlign.Justify)
                     },
                     navigationIcon = {
-                        AppIcon(R.drawable.ic_logo, "App Logo", modifier = Modifier.fillMaxSize().padding(12.dp, 12.dp))
+                        IconButton(
+                            onClick = {
+                                coroutineScope.launch {
+                                    scaffoldState.drawerState.open()
+                                }
+                            })
+                        {
+                            AppIcon(R.drawable.ic_logo,
+                                "App Logo",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(12.dp, 12.dp))
+
+                        }
                     },
                     actions = {
                         IconButton(onClick = {
@@ -221,7 +239,17 @@ fun TaskListView(
             },
             isFloatingActionButtonDocked = true,
             floatingActionButtonPosition = FabPosition.Center,
-
+            drawerContent = {
+                AppDrawer(
+                    currentRoute = "taskList",
+                    navigateToHome = { navController.navigate("taskList")},
+                    navigateToCompleted = {navController.navigate("taskList")},
+                    closeDrawer = { coroutineScope.launch { scaffoldState.drawerState.close() } },
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .navigationBarsPadding()
+                )
+            },
             bottomBar = {
                 val selectedItem = remember { mutableStateOf("delete") }
                 BottomAppBar(
@@ -261,7 +289,7 @@ fun TaskListView(
         ) {
             ConstraintLayout(modifier = modifier) {
                 val (
-                    LoadingView, LoadedView, ErrorView
+                    LoadingView, LoadedView, ErrorView,
                 ) = createRefs()
                 when (state) {
                     is TaskListViewState.Loading -> CircularProgressIndicator(
@@ -311,6 +339,42 @@ fun TaskListView(
 }
 
 @Composable
+fun DrawerContentView(modifier: Modifier, navController: NavController) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .padding(8.dp)) {
+        Row(modifier = Modifier.wrapContentHeight().fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start) {
+            AppIcon(R.drawable.ic_logo,
+                "App Logo",
+                modifier = Modifier
+                    .padding(8.dp).width(26.dp).height(26.dp))
+
+            Text(
+                text = "Menu",
+                style = MaterialTheme.typography.body1
+            )
+        }
+        Divider(
+            color = MaterialTheme.colors.secondaryVariant,
+            thickness = dimensionResource(
+                id = R.dimen.divider_size
+            ),
+            modifier = Modifier
+                .padding(
+                    bottom = dimensionResource(
+                        id = R.dimen.divider_size
+                    )
+                )
+        )
+
+
+    }
+}
+
+@Composable
 fun TaskErrorView(data: String, navController: NavController, modifier: Modifier) {
     Text(text = data, color = Color.Red, modifier = modifier)
 }
@@ -320,7 +384,7 @@ fun TaskListRecyclerView(
     data: List<TaskViewHolderState>,
     navController: NavController,
     viewModel: TaskViewModel,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     LazyColumn(modifier = modifier) {
         items(data) { taskInfo ->
@@ -356,7 +420,7 @@ fun AddFloatingButton(
     coroutineScope: CoroutineScope,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     navController: NavController,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     FloatingActionButton(
         shape = RoundedCornerShape(50),

@@ -10,4 +10,8 @@
     <string name="add_task_description_hint">Type your task description..</string>
     <string name="task_name">Name</string>
     <string name="task_description">Description</string>
+
+    // Menu drawer
+    <string name="drawer_home">Home</string>
+    <string name="drawer_completed">Completed</string>
 </resources>

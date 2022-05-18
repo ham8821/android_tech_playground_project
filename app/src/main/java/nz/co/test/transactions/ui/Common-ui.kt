@@ -1,16 +1,16 @@
 package nz.co.test.transactions.ui
 
 import androidx.annotation.DimenRes
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.Image
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.sp
@@ -55,5 +55,35 @@ fun AppIcon(
         contentDescription = contentDes,
         tint = tint,
         modifier = modifier
+    )
+}
+
+@Composable
+fun NavigationIcon(
+    icon: ImageVector,
+    isSelected: Boolean,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    tintColor: Color? = null,
+) {
+    val imageAlpha = if (isSelected) {
+        1f
+    } else {
+        0.6f
+    }
+
+    val iconTintColor = tintColor ?: if (isSelected) {
+        MaterialTheme.colors.primary
+    } else {
+        MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+    }
+
+    Image(
+        modifier = modifier,
+        imageVector = icon,
+        contentDescription = contentDescription,
+        contentScale = ContentScale.Inside,
+        colorFilter = ColorFilter.tint(iconTintColor),
+        alpha = imageAlpha
     )
 }

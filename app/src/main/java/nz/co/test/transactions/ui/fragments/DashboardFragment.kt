@@ -11,7 +11,7 @@ import nz.co.test.transactions.infrastructure.model.PieData
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class TaskDashboardFragment : Fragment() {
+class TaskDashboardFragment() : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
@@ -32,13 +32,8 @@ class TaskDashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
-        data.add("Sid", 18.0, "#4286f4")
-        data.add("Nick", 4.0, "#44a837")
-        data.add("Nick", 6.0, "#44a837")
-        data.add("Dave", 10.0)
+        data.add("Sid", 2.0, "#4286f4")
+        data.add("Nick", 1.0, "#44a837")
 
         binding.pieChart.setData(data)
     }

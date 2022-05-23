@@ -13,9 +13,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import nz.co.test.transactions.R
+import nz.co.test.transactions.infrastructure.model.CompletedTask
 import nz.co.test.transactions.ui.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.states.TaskViewHolderState
+import nz.co.test.transactions.ui.utils.Utility
 
 @Composable
 fun TaskViewHolder(
@@ -70,7 +72,6 @@ fun TaskViewHolder(
                         state.taskDescription
                     )
                 )
-                navController.navigate("taskList")
             }, modifier = Modifier
         ) {
             Icon(
@@ -114,6 +115,13 @@ fun TaskViewHolder(
                                     state.taskDescription
                                 )
                             )
+                            viewModel.addCompletedTask(CompletedTask(
+                                state.taskIdentifier.toInt(),
+                                state.date,
+                                Utility.getFormattedCurrentDate(),
+                                state.taskName,
+                                state.taskDescription
+                            ))
                         }
                 )
             }

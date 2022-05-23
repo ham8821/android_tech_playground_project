@@ -7,7 +7,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import nz.co.test.transactions.infrastructure.model.CompletedTask
 import nz.co.test.transactions.infrastructure.model.Task
+import nz.co.test.transactions.infrastructure.repository.CompletedTaskLocalRepository
 import nz.co.test.transactions.infrastructure.repository.TaskLocalRepository
 import nz.co.test.transactions.infrastructure.repository.TaskRepository
 import nz.co.test.transactions.ui.states.TaskDetailState
@@ -19,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
-    private val taskLocalRepository: TaskLocalRepository
+    private val taskLocalRepository: TaskLocalRepository,
+    private val completedTaskLocalRepository: CompletedTaskLocalRepository
 ) :
     ViewModel() {
 
@@ -81,6 +84,15 @@ class TaskViewModel @Inject constructor(
         }
     }
 
+    fun addCompletedTask(task: CompletedTask){
+        viewModelScope.launch {
+            try {
+                completedTaskLocalRepository.addTask(task)
+            } catch (e: Throwable) {
+                println("DAO DEBUG LOG$e.message")
+            }
+        }
+    }
     fun removeTask(task: Task) {
         viewModelScope.launch {
             taskLocalRepository.removeTask(task)

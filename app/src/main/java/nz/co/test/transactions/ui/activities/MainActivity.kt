@@ -16,7 +16,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import nz.co.test.transactions.App
-import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.ui.CompletedTaskViewModel
+import nz.co.test.transactions.ui.TaskViewModel
+import nz.co.test.transactions.ui.compose.CompletedTaskListScreenView
 import nz.co.test.transactions.ui.compose.TaskDetailScreenView
 import nz.co.test.transactions.ui.compose.TaskListScreenView
 import javax.inject.Inject
@@ -58,6 +60,10 @@ class MainActivity : AppCompatActivity() {
                 composable("taskDetail/{userId}"){ backStackEntry ->
                     val viewModel = hiltViewModel<TaskViewModel>()
                     TaskDetailScreenView(navController, backStackEntry.arguments?.getString("userId"), application=  application, viewModel, navigationIcon)
+                }
+                composable("completedTaskList") {
+                    val viewModel = hiltViewModel<CompletedTaskViewModel>()
+                    CompletedTaskListScreenView(navController = navController, application=  application, viewModel = viewModel)
                 }
             }
         }

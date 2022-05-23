@@ -8,7 +8,7 @@
 //import dagger.hilt.InstallIn
 //import dagger.hilt.components.SingletonComponent
 //import dagger.multibindings.IntoMap
-//import nz.co.test.transactions.TaskViewModel
+//import nz.co.test.transactions.ui.TaskViewModel
 //import nz.co.test.transactions.ViewModelFactory
 //import kotlin.reflect.KClass
 //

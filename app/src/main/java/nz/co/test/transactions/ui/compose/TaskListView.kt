@@ -25,12 +25,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nz.co.test.transactions.App
 import nz.co.test.transactions.R
-import nz.co.test.transactions.TaskViewModel
+import nz.co.test.transactions.ui.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.AppIcon
 import nz.co.test.transactions.ui.AppTheme
@@ -83,6 +84,10 @@ fun TaskListView(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute =
+        navBackStackEntry?.destination?.route ?: "taskList"
+
     BottomSheetScaffold(
         modifier = modifier,
         scaffoldState = bottomSheetScaffoldState,
@@ -241,9 +246,9 @@ fun TaskListView(
             floatingActionButtonPosition = FabPosition.Center,
             drawerContent = {
                 AppDrawer(
-                    currentRoute = "taskList",
+                    currentRoute = currentRoute,
                     navigateToHome = { navController.navigate("taskList") },
-                    navigateToCompleted = { navController.navigate("taskList") },
+                    navigateToCompleted = { navController.navigate("completedTaskList") },
                     closeDrawer = { coroutineScope.launch { scaffoldState.drawerState.close() } },
                     modifier = Modifier
                         .statusBarsPadding()

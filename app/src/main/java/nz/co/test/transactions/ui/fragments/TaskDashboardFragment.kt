@@ -17,7 +17,7 @@
 //import nz.co.test.transactions.OnItemClickedListener
 //import nz.co.test.transactions.R
 //import nz.co.test.transactions.TransactionListAdapter
-//import nz.co.test.transactions.TaskViewModel
+//import nz.co.test.transactions.ui.TaskViewModel
 //import nz.co.test.transactions.databinding.FragmentTaskListDashboardBinding
 //import nz.co.test.transactions.infrastructure.model.Task
 //import nz.co.test.transactions.ui.activities.MainActivity

@@ -24,24 +24,28 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import nz.co.test.transactions.infrastructure.dao.CompletedTaskDao
 import nz.co.test.transactions.infrastructure.dao.TaskDao
+import nz.co.test.transactions.infrastructure.model.CompletedTask
 import nz.co.test.transactions.infrastructure.model.Task
 
 /**
  * This is the backend. The database. This used to be done by the OpenHelper.
  * The fact that this has very few comments emphasizes its coolness.
  */
-@Database(entities = [Task::class], version = 1)
+@Database(entities = [Task::class, CompletedTask::class], version = 2)
 abstract class TaskRoomDataBase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
+
+    abstract fun completedTaskDao(): CompletedTaskDao
 
     companion object {
         @Volatile
         private var INSTANCE: TaskRoomDataBase? = null
         fun getDatabase(
             context: Context,
-            scope: CoroutineScope
+            scope: CoroutineScope,
         ): TaskRoomDataBase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
@@ -64,7 +68,7 @@ abstract class TaskRoomDataBase : RoomDatabase() {
         }
 
         private class WordDatabaseCallback(
-            private val scope: CoroutineScope
+            private val scope: CoroutineScope,
         ) : RoomDatabase.Callback() {
             /**
              * Override the onCreate method to populate the database.
@@ -75,9 +79,17 @@ abstract class TaskRoomDataBase : RoomDatabase() {
                 // comment out the following line.
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.taskDao())
+                        populateDatabase(database.taskDao(), database.completedTaskDao())
                     }
                 }
+            }
+
+            override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
+                super.onDestructiveMigration(db)
+            }
+
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                super.onOpen(db)
             }
         }
 
@@ -85,13 +97,18 @@ abstract class TaskRoomDataBase : RoomDatabase() {
          * Populate the database in a new coroutine.
          * If you want to start with more words, just add them.
          */
-        suspend fun populateDatabase(taskDao: TaskDao) {
+        suspend fun populateDatabase(taskDao: TaskDao, completedTaskDao: CompletedTaskDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
             taskDao.deleteAll()
 
             val task = Task(1,"dfd0","summary", "23032")
             taskDao.insert(task)
+
+            completedTaskDao.deleteAll()
+
+            val taskToComplete = CompletedTask(1,"dfd0","date","title", "23032")
+            completedTaskDao.insert(taskToComplete)
         }
     }
 }

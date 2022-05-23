@@ -7,7 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import nz.co.test.transactions.infrastructure.TaskRoomDataBase
+import nz.co.test.transactions.infrastructure.dao.CompletedTaskDao
 import nz.co.test.transactions.infrastructure.dao.TaskDao
+import nz.co.test.transactions.infrastructure.repository.CompletedTaskLocalRepository
 import nz.co.test.transactions.infrastructure.repository.TaskLocalRepository
 import javax.inject.Singleton
 
@@ -19,7 +21,7 @@ class RoomModule() {
     @Provides
     fun providesTaskRoomDatabase(mApplication: Application): TaskRoomDataBase {
         return Room.databaseBuilder(mApplication, TaskRoomDataBase::class.java, "task_database")
-            .allowMainThreadQueries().build()
+            .allowMainThreadQueries().fallbackToDestructiveMigration().build()
     }
 
     @Singleton
@@ -30,6 +32,17 @@ class RoomModule() {
 
     @Singleton
     @Provides
+    fun providesCompletedTaskProductDao(demoDatabase: TaskRoomDataBase): CompletedTaskDao {
+        return demoDatabase.completedTaskDao()
+    }
+
+    @Singleton
+    @Provides
     fun providesLocalTaskRepository(taskDao: TaskDao): TaskLocalRepository =
         TaskLocalRepository(taskDao)
+
+    @Singleton
+    @Provides
+    fun providesCompletedLocalTaskRepository(taskDao: CompletedTaskDao): CompletedTaskLocalRepository =
+        CompletedTaskLocalRepository(taskDao)
 }

@@ -6,6 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import nz.co.test.transactions.infrastructure.TaskRoomDataBase
+import nz.co.test.transactions.infrastructure.repository.CompletedTaskLocalRepository
 import nz.co.test.transactions.infrastructure.repository.TaskLocalRepository
 
 @HiltAndroidApp
@@ -17,6 +18,8 @@ class App : Application() {
     // rather than when the application starts
     val database by lazy { TaskRoomDataBase.getDatabase(this, applicationScope) }
     val repository by lazy { TaskLocalRepository( database.taskDao()) }
+    val completedRepository by lazy { CompletedTaskLocalRepository( database.completedTaskDao()) }
+
 
     //Todo: could be implemented with SharedPreference
     val isDark = mutableStateOf(true)

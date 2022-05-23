@@ -8,5 +8,6 @@ data class TaskViewHolderState(
     var taskName: String,
     var taskDescription: String,
     var date: String,
-    var taskIdentifier: String
+    var taskIdentifier: String,
+    var completedDate: String? = null
 ) : Parcelable

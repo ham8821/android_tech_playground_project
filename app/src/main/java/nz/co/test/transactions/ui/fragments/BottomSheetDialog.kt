@@ -8,7 +8,7 @@
 //import androidx.fragment.app.viewModels
 //import androidx.lifecycle.ViewModelProvider
 //import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-//import nz.co.test.transactions.TaskViewModel
+//import nz.co.test.transactions.ui.TaskViewModel
 //import nz.co.test.transactions.databinding.AddItemLayoutBinding
 //import nz.co.test.transactions.infrastructure.model.Task
 //import nz.co.test.transactions.ui.utils.Utility.getFormattedCurrentDate

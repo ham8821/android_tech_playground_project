@@ -1,7 +1,6 @@
-package nz.co.test.transactions
+package nz.co.test.transactions.ui
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,9 +23,6 @@ class TaskViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val isLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val showNoTransactonFoundView: MutableLiveData<Boolean> = MutableLiveData()
-    val showListScreen: MutableLiveData<Boolean> = MutableLiveData()
     private lateinit var detail: TaskViewHolderState
 
     private val _state: MutableStateFlow<TaskListViewState> = MutableStateFlow(
@@ -89,7 +85,6 @@ class TaskViewModel @Inject constructor(
         viewModelScope.launch {
             taskLocalRepository.removeTask(task)
         }
-        showListScreen.value = true
     }
 
     fun removeAllTasks() {

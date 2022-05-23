@@ -1,6 +1,7 @@
 package nz.co.test.transactions.ui.compose
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -26,6 +27,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.fragment.findNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -35,6 +37,7 @@ import nz.co.test.transactions.ui.TaskViewModel
 import nz.co.test.transactions.infrastructure.model.Task
 import nz.co.test.transactions.ui.AppIcon
 import nz.co.test.transactions.ui.AppTheme
+import nz.co.test.transactions.ui.activities.DashboardActivity
 import nz.co.test.transactions.ui.states.TaskListViewState
 import nz.co.test.transactions.ui.states.TaskViewHolderState
 import nz.co.test.transactions.ui.utils.Utility.getFormattedCurrentDate
@@ -207,7 +210,6 @@ fun TaskListView(
                 TopAppBar(
                     title = {
                         Text(text = "To-Do Manager",
-                            style = MaterialTheme.typography.h5,
                             textAlign = TextAlign.Justify)
                     },
                     navigationIcon = {
@@ -245,10 +247,14 @@ fun TaskListView(
             isFloatingActionButtonDocked = true,
             floatingActionButtonPosition = FabPosition.Center,
             drawerContent = {
+                val context = LocalContext.current
                 AppDrawer(
                     currentRoute = currentRoute,
                     navigateToHome = { navController.navigate("taskList") },
                     navigateToCompleted = { navController.navigate("completedTaskList") },
+                    navigateToDashboard = {
+                        context.startActivity(Intent(context, DashboardActivity::class.java))
+                    },
                     closeDrawer = { coroutineScope.launch { scaffoldState.drawerState.close() } },
                     modifier = Modifier
                         .statusBarsPadding()

@@ -1,5 +1,6 @@
 package nz.co.test.transactions.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +15,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import nz.co.test.transactions.App
+import nz.co.test.transactions.R
 import nz.co.test.transactions.ui.CompletedTaskViewModel
 import nz.co.test.transactions.ui.TaskViewModel
 import nz.co.test.transactions.ui.compose.CompletedTaskListScreenView

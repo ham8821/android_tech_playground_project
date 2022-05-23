@@ -6,6 +6,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +26,7 @@ fun AppDrawer(
     currentRoute: String,
     navigateToHome: () -> Unit,
     navigateToCompleted: () -> Unit,
+    navigateToDashboard: () -> Unit,
     closeDrawer: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -58,6 +61,16 @@ fun AppDrawer(
             isSelected = currentRoute == "completedTasks",
             action = {
                 navigateToCompleted()
+                closeDrawer()
+            }
+        )
+
+        DrawerButton(
+            icon = Icons.Filled.Menu,
+            label = stringResource(id = string.drawer_dashboard),
+            isSelected = currentRoute == "dashboard",
+            action = {
+                navigateToDashboard()
                 closeDrawer()
             }
         )
@@ -128,6 +141,7 @@ fun PreviewAppDrawer() {
                 currentRoute = "taskList",
                 navigateToHome = {},
                 navigateToCompleted = {},
+                navigateToDashboard = {},
                 closeDrawer = { }
             )
         }

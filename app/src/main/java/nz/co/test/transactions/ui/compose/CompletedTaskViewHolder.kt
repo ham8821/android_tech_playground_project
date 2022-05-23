@@ -32,9 +32,6 @@ fun CompletedTaskViewHolder(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .clickable {
-                navController.navigate("taskDetail/" + state.taskIdentifier)
-            }
             .padding(8.dp)
     ) {
         Column(

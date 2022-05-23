@@ -4,4 +4,13 @@
         <item name="android:statusBarColor">@color/status_bar</item>
         <item name="android:background">@color/status_bar</item>
     </style>
+
+    <style name="Theme.Transactions.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Transactions.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Transactions.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

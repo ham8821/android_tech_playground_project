@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import dagger.hilt.android.AndroidEntryPoint
 import nz.co.test.transactions.databinding.FragmentDashboardBinding
 import nz.co.test.transactions.infrastructure.model.PieData
+import nz.co.test.transactions.ui.DashboardViewModel
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
+@AndroidEntryPoint
 class TaskDashboardFragment() : Fragment() {
+
+    private val viewModel by viewModels<DashboardViewModel>()
 
     private var _binding: FragmentDashboardBinding? = null
 
@@ -32,10 +36,18 @@ class TaskDashboardFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        data.add("Sid", 2.0, "#4286f4")
-        data.add("Nick", 1.0, "#44a837")
 
-        binding.pieChart.setData(data)
+        /** Setting up LiveData observation relationship **/
+        viewModel.taskCount.observe(viewLifecycleOwner, Observer { count ->
+            data.add("Active tasks", count.toDouble())
+            binding.pieChart.setData(data)
+        })
+
+        viewModel.completedTaskCount.observe(viewLifecycleOwner, Observer { count ->
+            data.add("Completed tasks", count.toDouble())
+            binding.pieChart.setData(data)
+        })
+
     }
 
     override fun onDestroyView() {

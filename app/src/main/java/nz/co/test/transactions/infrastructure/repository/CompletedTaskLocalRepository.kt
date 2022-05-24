@@ -13,6 +13,10 @@ class CompletedTaskLocalRepository @Inject constructor(private val completedTask
         return completedTaskDao.getPreviousTask(taskId)
     }
 
+    fun getNumCompletedTasks(): Int {
+        return completedTaskDao.getCount()
+    }
+
     suspend fun addTask(task: CompletedTask){
         completedTaskDao.insert(task)
     }

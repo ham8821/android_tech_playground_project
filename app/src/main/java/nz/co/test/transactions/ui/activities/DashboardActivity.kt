@@ -1,16 +1,16 @@
 package nz.co.test.transactions.ui.activities
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import nz.co.test.transactions.R
 import nz.co.test.transactions.databinding.ActivityDashboardBinding
 
+@AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
 
     lateinit var appBarConfiguration: AppBarConfiguration

@@ -203,7 +203,7 @@ class PieChart @JvmOverloads constructor(
         if (alignment == IndicatorAlignment.LEFT) mainTextPaint.textAlign = Paint.Align.LEFT
         else mainTextPaint.textAlign = Paint.Align.RIGHT
         mainTextPaint.color = context.getColor(R.color.black2)
-        canvas?.drawText(pieItem.name, pieItem.indicatorCircleLocation.x + xOffset,
+        canvas?.drawText(pieItem.name+": "+pieItem.value.toInt(), pieItem.indicatorCircleLocation.x + xOffset,
             pieItem.indicatorCircleLocation.y - 10, mainTextPaint)
     }
 

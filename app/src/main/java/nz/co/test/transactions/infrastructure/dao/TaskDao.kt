@@ -25,4 +25,7 @@ interface TaskDao {
 
     @Update
     fun updateTask(task: Task)
+
+    @Query("SELECT COUNT(id) FROM task_table")
+    fun getCount(): Int
 }

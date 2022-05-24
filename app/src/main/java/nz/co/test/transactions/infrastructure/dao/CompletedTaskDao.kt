@@ -20,4 +20,7 @@ interface CompletedTaskDao {
 
     @Delete
     fun deleteTask(task: CompletedTask)
+
+    @Query("SELECT COUNT(id) FROM task_table")
+    fun getCount(): Int
 }

@@ -48,6 +48,8 @@ android {
 
 dependencies {
 
+    lintChecks project(':checks')
+
     // Hilt
     implementation Deps.hilt_android
     implementation 'com.google.android.material:material:1.6.0'

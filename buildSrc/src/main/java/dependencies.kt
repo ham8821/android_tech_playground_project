@@ -8,8 +8,8 @@ import Versions.test
 
 object Versions{
     const val minSdk = 28
-    const val targetSdk = 32
-    const val compileSdk = 32
+    const val targetSdk = 31
+    const val compileSdk = 31
 
     const val kotlin = "1.6.21"
     const val retrofit = "2.9.0"

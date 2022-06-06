@@ -6,6 +6,15 @@ java {
 }
 
 dependencies {
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:1.6.21"
+
+    compileOnly "com.android.tools.lint:lint:30.0.0"
     compileOnly "com.android.tools.lint:lint-api:30.0.0"
     compileOnly "com.android.tools.lint:lint-checks:30.0.0"
+}
+
+jar {
+    manifest {
+        attributes("Lint-Registry-v2":"com.example.checks.IssueRegistry")
+    }
 }

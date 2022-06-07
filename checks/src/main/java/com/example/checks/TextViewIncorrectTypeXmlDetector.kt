@@ -38,7 +38,14 @@ class TextViewIncorrectTypeXmlDetector : ResourceXmlDetector() {
             issue = ISSUE,
             scope = element,
             location = context.getNameLocation(element),
-            message = "It is encouraged to replace `TextInputEditText` with `CustomTextInputEditText`."
+            message = "It is encouraged to replace `TextInputEditText` with `CustomTextInputEditText`.",
+            quickfixData = LintFix.create()
+                .replace()
+                // Put the text we're looking to replace
+                .text("com.google.android.material.textfield.TextInputEditText")
+                // Put the text we want to replace it with.
+                .with("nz.co.test.transactions.ui.common_ui.CustomTextInputEditText")
+                .build()
         )
     }
 }
